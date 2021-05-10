@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="OrderALLVIew">
+  <grid id="97917" binding="panel1" default-binding="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+    <constraints>
+      <xy x="23" y="29" width="632" height="518"/>
+    </constraints>
+    <properties/>
+    <border type="none"/>
+    <children>
+      <toolbar id="d5b1f">
+        <constraints border-constraint="West"/>
+        <properties>
+          <orientation value="1"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <component id="b8cc0" class="javax.swing.JButton" binding="button1" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <component id="b4f5e" class="javax.swing.JButton" binding="button2" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <component id="c557e" class="javax.swing.JButton" binding="button3" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <component id="9b21a" class="javax.swing.JButton" binding="button4" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+          <component id="4c0dd" class="javax.swing.JButton" binding="button5" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Button"/>
+            </properties>
+          </component>
+        </children>
+      </toolbar>
+      <scrollpane id="a2194" binding="sc">
+        <constraints border-constraint="Center"/>
+        <properties>
+          <background color="-14043410"/>
+        </properties>
+        <border type="none"/>
+        <children>
+          <grid id="a159d" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="144f8" class="javax.swing.JTable" binding="table1" default-binding="true">
+                <constraints border-constraint="Center"/>
+                <properties/>
+              </component>
+              <component id="7c813" class="javax.swing.JTable" binding="table2" default-binding="true">
+                <constraints border-constraint="South"/>
+                <properties/>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </scrollpane>
+    </children>
+  </grid>
+</form>
