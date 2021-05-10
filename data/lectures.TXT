@@ -1,0 +1,30 @@
+B1;Indoor running;35;2021-04-24;2021/04/23 16:21:13;
+B1;Indoor running;40;2021-04-25;2021/04/23 16:21:13;
+B2a;Indoor running;2;2021-04-19;null;
+B2a;Indoor running;26;2021-04-23;null;
+B2b;Indoor running;41;2021-04-25;2021/04/23 16:21:17;
+B3;Indoor running;3;2021-04-19;null
+B3;Indoor running;9;2021-04-20;null
+B4a;Indoor running;11;2021-04-20;null;
+B4b;Indoor running;38;2021-04-25;2021/04/23 23:46:40;
+B5;Indoor running;6;2021-04-19;null
+B6a;Indoor running;40;2021-05-9;null
+B6b;Indoor running;41;2021-05-9;2021-4-10 12:08:09
+B7a;Indoor running;5;2021-04-05;null
+B7a;Indoor running;10;2021-04-06;null
+B7b;Indoor running;20;2021-04-08;2021-4-07 12:08:09
+B7b;Indoor running;21;2021-04-08;2021-4-07 12:08:09
+B8;Indoor running;1;2021-04-26;2021/04/24 00:19:18;
+B8;Indoor running;2;2021-04-26;2021/04/24 00:19:18;
+B8;Indoor running;3;2021-04-26;2021/04/24 00:19:18;
+B9; ;14;2021-04-28;null
+B9; ;20;2021-04-29;null
+B9; ;15;2021-04-28;null
+B10; ;0;2021-05-10;null
+B10; ;6;2021-05-11;null
+B10; ;1;2021-05-10;null
+B11; ;30;2021-05-15;null
+B11; ;36;2021-05-16;null
+B12;weightloss;14;2021-05-12;null
+B12;weightloss;15;2021-05-12;null
+B12;weightloss;16;2021-05-12;null
