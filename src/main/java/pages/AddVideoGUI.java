@@ -1,5 +1,7 @@
 package pages;
 
+import bean.Customer;
+import bean.Video;
 import logic.AdminVideoListener;
 
 import javax.swing.*;
@@ -28,6 +30,7 @@ public class AddVideoGUI implements ActionListener{
     String videoCoverText;
     Object[] rowData;
     int flag=0;
+    private JComboBox<String> cbLowest;
 
 
     public AddVideoGUI(AdminVideoController avc, AdminVideoListener avl){
@@ -40,7 +43,7 @@ public class AddVideoGUI implements ActionListener{
     public void go(){
 
         JPanel pVideoInfo = new JPanel();
-        pVideoInfo.setLayout(new GridLayout(2,2));
+        pVideoInfo.setLayout(new GridLayout(3,2));
         JPanel pSouth = new JPanel();
         pSouth.setLayout(new BoxLayout(pSouth,BoxLayout.Y_AXIS));
 
@@ -102,6 +105,18 @@ public class AddVideoGUI implements ActionListener{
         pIntro.add(lIntro);
         pIntro.add(jScrollPane);
 
+        //Video Lowest Class Viewing
+        JPanel pLowest = new JPanel();
+        pVideoInfo.add(pLowest);
+        //pLowest.setLayout();
+        JLabel lLowest = new JLabel("Video Lowest Class Viewing:  ");
+        String[] listLowest = new String[]{Customer.MEMBERSHIP_GOLD,Customer.MEMBERSHIP_NORM,Customer.MEMBERSHIP_JUNIOR};
+        cbLowest = new JComboBox<String>(listLowest);
+        cbLowest.setSelectedIndex(2);
+        pLowest.add(lLowest);
+        pLowest.add(cbLowest);
+
+
         frame = new JFrame("Add Video Information");
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  //Close when Payment is comleted
         frame.setBounds(400,150,500,500);
@@ -114,6 +129,7 @@ public class AddVideoGUI implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        Video video = new Video();
         if(e.getSource()==bCancel){
             frame.dispose();     //dispose the frame
 
@@ -121,16 +137,17 @@ public class AddVideoGUI implements ActionListener{
            // int index=0;
             if((vName!=null)&&(vFormat!=null)&&(vCFormat!=null)){
                 //fill rowData
-                rowData = new Object[5];
+                rowData = new Object[6];
                 rowData[0]=vName;
                 rowData[1]=vCFormat;
                 rowData[2]=vFormat;
                 rowData[3]=cbCategory.getSelectedItem();
                 rowData[4]=taIntro.getText();
+                rowData[5]=cbLowest.getSelectedItem();
 
-                String row= vName + ";"+vCFormat + ";"+vFormat + ";"+cbCategory.getSelectedItem() + ";"+taIntro.getText();
-                System.out.println(row);
-                avl.addVideo(row);
+                String rowFile = vName + ";"+vCFormat + ";"+vFormat + ";"+video.revTransCategory((String) cbCategory.getSelectedItem()) + ";"+taIntro.getText()+ ";"+video.revTransMem((String)cbLowest.getSelectedItem());
+                System.out.println(rowFile);
+                avl.addVideo(rowFile);
                 JOptionPane.showMessageDialog(null,"Submit Successfully!   ","Add Video Result",JOptionPane.DEFAULT_OPTION);
                 frame.dispose();
                 avc.getTableModel().addRow(rowData);

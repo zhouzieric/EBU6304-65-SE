@@ -2,6 +2,7 @@ package pages;
 
 import bean.Booking;
 import bean.Lecture;
+import logic.FeedbackController;
 import logic.ReadOrder;
 import logic.ReadandWrite;
 import logic.getNextWeek;
@@ -11,25 +12,28 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowFocusListener;
 import java.util.ArrayList;
 
 public class OrderSingle extends JPanel {
-    OrderMenuContainer orderMenuContainer;
+    OrdersPanel ordersPanel;
     ArrayList<Lecture> lectures;
     Booking b;
+    final String color = "\"#A1887F\"";
 
-//    public OrderSingle(Booking b, OrdersPanel belongsTo ){
-      public OrderSingle(Booking b, OrderMenuContainer orderMenuContainer){
+    public OrderSingle(Booking b, OrdersPanel belongsTo ){
+//      public OrderSingle(Booking b, OrderMenuContainer orderMenuContainer){
         this.setBorder(BorderFactory.createLineBorder(MaterialColors.GRAY_100,2,true));
 
-        this.orderMenuContainer = orderMenuContainer;
+        this.ordersPanel = belongsTo;
         this.b = b;
         lectures = ReadOrder.getLectures(b.getBookingID());
 
           //如果有评价
           if(b.getStar() != null && b.getFeedback() != null){
               //System.out.println(b.getBookingID() +b.getStar() +b.getFeedback());
-              this.setPreferredSize(new Dimension(0, 140));
+              this.setPreferredSize(new Dimension(0, 220));
               this.setLayout(new GridLayout(2,1));
 
               JPanel row1  = new JPanel();
@@ -54,7 +58,7 @@ public class OrderSingle extends JPanel {
           }
           else{
 //              System.out.println(b.getBookingID() +b.getStar() +b.getFeedback());
-              this.setPreferredSize(new Dimension(0, 70));
+              this.setPreferredSize(new Dimension(0, 110));
               createRow1(this);
           }
 
@@ -70,13 +74,13 @@ public class OrderSingle extends JPanel {
         JPanel col1 = new JPanel(new GridLayout(3,1));
         col1.setBorder(BorderFactory.createLineBorder(MaterialColors.GRAY_100,2,true));
         JPanel BIDandP = new JPanel(new GridLayout(1,2));
-        BIDandP.add(new JLabel("<html><font color=\"#A1887F\">Booking ID:</font> " + b.getBookingID() + "</html>"));
-        BIDandP.add(new JLabel("<html><font color=\"#A1887F\">Price:</font> " + b.getPrice() + "</html>"));
+        BIDandP.add(new JLabel("<html><font color=" + color + ">Booking ID:</font> " + b.getBookingID() + "</html>"));
+        BIDandP.add(new JLabel("<html><font color=" + color + ">Price:</font> " + b.getPrice() + "</html>"));
         JPanel TIDandTN = new JPanel(new GridLayout(1,2));
-        TIDandTN.add(new JLabel("<html><font color=\"#A1887F\">Trainer ID:</font> " + b.getTraID() + "</html>"));
-        TIDandTN.add(new JLabel("<html><font color=\"#A1887F\">Trainer Name:</font> " + ReadandWrite.getName(b.getTraID()) + "</html>"));
+        TIDandTN.add(new JLabel("<html><font color=" + color + ">Trainer ID:</font> " + b.getTraID() + "</html>"));
+        TIDandTN.add(new JLabel("<html><font color=" + color + ">Trainer Name:</font> " +"<br>" + ReadandWrite.getName(b.getTraID()) + "</html>"));
         JPanel CT = new JPanel();
-        JLabel createTime = new JLabel("<html><font color=\"#A1887F\">Created Time:</font> " + b.getCreatDate() + "</html>");
+        JLabel createTime = new JLabel("<html><font color=" + color + ">Created Time:</font> " + b.getCreatDate() + "</html>");
         CT.add(createTime);
         col1.add(BIDandP);
         col1.add(TIDandTN);
@@ -151,6 +155,7 @@ public class OrderSingle extends JPanel {
     }
 
     private class cORfListener implements ActionListener{
+
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton button = (JButton)e.getSource();
@@ -158,37 +163,28 @@ public class OrderSingle extends JPanel {
                 System.out.println("点击了取消");
                 System.out.println("id:"+b.getBookingID());
                 ReadOrder.cancelBooking(b.getBookingID());
-            } else{
-                //弹窗 用户输入反馈
+
+                ordersPanel.getOrders();
+            } else if(button.getText().equals("Feedback")){
                 //需检查是否已有反馈
-                String[] possibleValues = { "null", "1", "2", "3", "4", "5" };
-                String selectedValue = (String) JOptionPane.showInputDialog(null, "Please grade this order", "Grade Order",
-                        JOptionPane.INFORMATION_MESSAGE, null, possibleValues, possibleValues[0]);
-                System.out.println(selectedValue);
-                String feedback = JOptionPane.showInputDialog("What's your feedback towards this order");
-                System.out.println(feedback);
-                //if有值
-                ReadOrder.addFeedback(feedback,Integer.parseInt(selectedValue),b.getBookingID());
+                if(ReadOrder.canFeedback(b.getBookingID())){
+                    FeedbackController feedback = new FeedbackController(b.getBookingID(),b.getQuestionnaire().getTarget(), ordersPanel);
+                    feedback.getFrame().addWindowFocusListener(new WindowFocusListener() {
+                        public void windowGainedFocus(WindowEvent e) {
+                        }
+                        public void windowLostFocus(WindowEvent e) {
+                            e.getWindow().toFront();
+                        }
+                    });
+
+                    feedback.thisPage();
+                }else{
+                    JOptionPane.showMessageDialog(null, "You have reviewed this order.", null,JOptionPane.INFORMATION_MESSAGE);
+                }
             }
-
-            orderMenuContainer.removeAll();
-            orderMenuContainer.setTabPlacement(JTabbedPane.LEFT);
-
-            orderMenuContainer.setShowAllOrders(new OrdersPanel(0, orderMenuContainer));
-            orderMenuContainer.setShowPaidOrders(new OrdersPanel(1, orderMenuContainer));
-            orderMenuContainer.setShowOngoingOrders(new OrdersPanel(2, orderMenuContainer));
-            orderMenuContainer.setShowFinishedOrders(new OrdersPanel(3, orderMenuContainer));
-            orderMenuContainer.setShowCanceledOrders(new OrdersPanel(4, orderMenuContainer));
-
-            orderMenuContainer.addTab("All orders",orderMenuContainer.getShowAllOrders());
-            orderMenuContainer.addTab("Paid orders",orderMenuContainer.getShowPaidOrders());
-            orderMenuContainer.addTab("Ongoing orders",orderMenuContainer.getShowOngoingOrders());
-            orderMenuContainer.addTab("Finished orders",orderMenuContainer.getShowFinishedOrders());
-            orderMenuContainer.addTab("Canceled orders",orderMenuContainer.getShowCanceledOrders());
-//            orderMenuContainer.addTab("My calendar",ctable);
-            orderMenuContainer.revalidate();
         }
 
     }
+
 
 }

@@ -1,5 +1,6 @@
 package pages;
 
+import bean.Customer;
 import logic.Login;
 import logic.Register;
 
@@ -12,9 +13,9 @@ public class CustomerRegisJP extends RegisterJpanel {
 
     private JLabel label=new JLabel("Membership: ");
 
-    private JRadioButton radio6=new JRadioButton("gold");
-    private JRadioButton radio7=new JRadioButton("nor",true);
-    private JRadioButton radio8=new JRadioButton("junior");
+    private JRadioButton radio6=new JRadioButton(Customer.MEMBERSHIP_GOLD);
+    private JRadioButton radio7=new JRadioButton(Customer.MEMBERSHIP_NORM,true);
+    private JRadioButton radio8=new JRadioButton(Customer.MEMBERSHIP_JUNIOR);
 
     private String acc_getC="";
     private String membership="";

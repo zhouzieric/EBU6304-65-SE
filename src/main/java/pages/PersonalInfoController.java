@@ -97,7 +97,6 @@ public class PersonalInfoController extends JPanel {
         panALeft.setLayout(new GridLayout(2,1));
         //panALeft.setPreferredSize(new Dimension(0,0));
 
-
         JPanel panARight = new JPanel();
         panARight.setLayout(new BoxLayout(panARight,BoxLayout.PAGE_AXIS));
         //panARight.setPreferredSize(new Dimension(0,0));

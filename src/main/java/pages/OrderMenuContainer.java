@@ -2,6 +2,7 @@ package pages;
 
 import javax.swing.*;
 
+
 public class OrderMenuContainer extends JTabbedPane {
     //private JPanel ctable;
     private OrdersPanel showAllOrders;
@@ -30,6 +31,21 @@ public class OrderMenuContainer extends JTabbedPane {
         this.addTab("Finished orders",showFinishedOrders);
         this.addTab("Canceled orders",showCanceledOrders);
       //  this.addTab("My calendar",ctable);
+
+        this.addChangeListener(e -> {
+            if (e.getSource() instanceof JTabbedPane) {
+                JTabbedPane jTabbedPane = (JTabbedPane) e.getSource();
+
+                //int i = jTabbedPane.getSelectedIndex();
+                OrdersPanel ordersPanel = (OrdersPanel) jTabbedPane.getSelectedComponent();
+
+                ordersPanel.getOrders();
+                //jTabbedPane.setSelectedIndex(i);
+
+            }
+
+        });
+
 
 
 

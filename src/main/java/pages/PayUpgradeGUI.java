@@ -2,6 +2,7 @@ package pages;
 
 import bean.Customer;
 import logic.ChangeInfo;
+import logic.DiscountCalculator;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -27,6 +28,7 @@ public class PayUpgradeGUI implements ActionListener {
         this.c = c;
         this.accNo=accNo;
         this.cus = cus;
+        DiscountCalculator dc = new DiscountCalculator();
 
         //top rule illustration
         JPanel pRule = new JPanel();
@@ -52,7 +54,8 @@ public class PayUpgradeGUI implements ActionListener {
         pRule1.add(pGoldRight);
         JLabel lG1 = new JLabel("1.  Appoint personal trainer.          ");
         JLabel lG2 = new JLabel("2.  Unlock all the membership needed videos.         ");
-        JLabel lG3 = new JLabel("3.  All charged videos shared a 80% discount.            ");
+        dc.readMemPrice(Customer.MEMBERSHIP_GOLD);
+        JLabel lG3 = new JLabel("3.  All charged videos shared a "+ dc.getMem_discount() +" discount.            ");
         JLabel lG4 = new JLabel("4.  A suit of professional sports equipment for free.          ");
         JLabel lG5 = new JLabel("   (sponge, yoga mat, foam roller, sweatband,           ");
         JLabel lG6 = new JLabel("lightweight barbell, fitness ball).           ");
@@ -72,8 +75,9 @@ public class PayUpgradeGUI implements ActionListener {
         JPanel pNormRight = new JPanel();
         pNormRight.setLayout(new BoxLayout(pNormRight,BoxLayout.Y_AXIS));
         pRule1.add(pNormRight);
-        JLabel lNorm1 = new JLabel("1.  Unlock all the membership needed videos.           ");
-        JLabel lNorm2 = new JLabel("2.	 All charged videos shared a 90% discount.        ");
+        JLabel lNorm1 = new JLabel("1.  Appoint personal trainer.           ");
+        dc.readMemPrice(Customer.MEMBERSHIP_NORM);
+        JLabel lNorm2 = new JLabel("2.	 All living courses shared a "+dc.getMem_discount()+" discount.        ");
         JLabel lNorm3 = new JLabel("3.  A suit of basic sports equipment for free.       ");
         JLabel lNorm4 = new JLabel("(sponge, yoga mat, foam roller).        ");
         pNormRight.add(lNorm1);
@@ -85,7 +89,7 @@ public class PayUpgradeGUI implements ActionListener {
         //Non
         JPanel pNonTitle = new JPanel();
         pRule1.add(pNonTitle);
-        JLabel lNonTitle = new JLabel("Non Membership Rights    ");
+        JLabel lNonTitle = new JLabel("Junior Membership Rights    ");
         pNonTitle.add(lNonTitle);
 
         JPanel pNon = new JPanel();
@@ -120,7 +124,7 @@ public class PayUpgradeGUI implements ActionListener {
         pOption.add(pOUp);
 
         String mem = cus.getMembership();
-        if(mem.equals("gold")){
+        if(mem.equals(Customer.MEMBERSHIP_GOLD)){
             JPanel pGold = new JPanel();
             JLabel lGold = new JLabel("You are already our top level Member   ");
             JLabel lspa = new JLabel("                                               ");
@@ -139,7 +143,7 @@ public class PayUpgradeGUI implements ActionListener {
             pGold.add(lPrice);
             pGold.add(bGold);
             pOUp.add(pGold);
-            if(mem.equals("non")){
+            if(mem.equals(Customer.MEMBERSHIP_JUNIOR)){
                 JPanel pNorm = new JPanel();
                 JLabel lNorm = new JLabel("Normal Level Membership   ");
                 JLabel lPriceN = new JLabel("   $100   ");
@@ -175,9 +179,9 @@ public class PayUpgradeGUI implements ActionListener {
             //yes=0,no=1
             if(input==0){
                 JOptionPane.showMessageDialog(null,"Pay Successfully!   ","Payment",JOptionPane.DEFAULT_OPTION);
-                c.changeCusInfo(0,"gold");
-                cus.setMembership("gold");
-                lMemUp.setText("Membership Rank: gold");
+                c.changeCusInfo(0,Customer.MEMBERSHIP_GOLD);
+                cus.setMembership(Customer.MEMBERSHIP_GOLD);
+                lMemUp.setText("Membership Rank: "+Customer.MEMBERSHIP_GOLD);
                 frame.dispose();
             }
         }else if(e.getSource() == bNorm){
@@ -185,9 +189,9 @@ public class PayUpgradeGUI implements ActionListener {
             input=JOptionPane.showConfirmDialog(null,"Are you sure you want to pay $100 to upgrade?   ","Payment",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             if(input==0){
                 JOptionPane.showMessageDialog(null,"Pay Successfully!    ","Payment",JOptionPane.DEFAULT_OPTION);
-                c.changeCusInfo(0,"norm");
-                cus.setMembership("norm");
-                lMemUp.setText("Membership Rank: norm");
+                c.changeCusInfo(0,Customer.MEMBERSHIP_NORM);
+                cus.setMembership(Customer.MEMBERSHIP_NORM);
+                lMemUp.setText("Membership Rank: "+Customer.MEMBERSHIP_NORM);
                 frame.dispose();
 
             }

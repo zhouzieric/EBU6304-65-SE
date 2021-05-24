@@ -1,5 +1,6 @@
 package pages;
 
+import bean.Video;
 import logic.AdminVideoListener;
 import logic.searchVideos;
 
@@ -77,15 +78,19 @@ public class AdminVideoController extends JPanel {
         pAll.add(pVideoRecord,BorderLayout.CENTER);
 
 
-
+        Video video = new Video();
         //get all videos info
         ArrayList<String[]> allvideos = new searchVideos().searchAllvideos();
         Object[][] videosInfo = (Object[][])allvideos.toArray(new Object[0][0]);
-        int col = videosInfo[0].length;
+        int row = videosInfo.length;
+        for(int i=0;i<row;i++){
+            videosInfo[i][3] = video.transCategory(Integer.parseInt((String) videosInfo[i][3]));
+            videosInfo[i][5] = video.transMem(Integer.parseInt((String) videosInfo[i][5]));
+        }
 
 
         //set table
-        String[] headNames = {"Video Name","Video Cover Format","Video Format","Category","Introduction"};
+        String[] headNames = {"Video Name","Video Cover Format","Video Format","Category","Introduction","Lowest Class Viewing"};
         tableModel = new DefaultTableModel(videosInfo,headNames);
         table = new JTable(tableModel);
 
@@ -106,6 +111,7 @@ public class AdminVideoController extends JPanel {
         table.getColumnModel().getColumn(2).setPreferredWidth(150);
         table.getColumnModel().getColumn(3).setPreferredWidth(150);
         table.getColumnModel().getColumn(4).setPreferredWidth(400);
+        table.getColumnModel().getColumn(5).setPreferredWidth(200);
         table.setPreferredScrollableViewportSize(new Dimension(1200,400));
 
 

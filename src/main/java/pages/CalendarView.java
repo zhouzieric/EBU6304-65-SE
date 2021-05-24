@@ -149,7 +149,7 @@ public class CalendarView extends JPanel {
                 }
             }
             //这里打算写读到的已经被订的课
-            ArrayList<String> AllLecturesNum = new Match().get_lectures(TID);
+            ArrayList<String> AllLecturesNum = new Match().get_NextWeeklectures(TID);
             for(String showLec:AllLecturesNum){
                 int[] TheLocation =lectureNumToBox.changeToLocation(Integer.parseInt(showLec));
                 boxTable[TheLocation[0]][TheLocation[1]].setEnabled(false);
