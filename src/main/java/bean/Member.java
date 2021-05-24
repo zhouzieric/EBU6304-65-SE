@@ -1,14 +1,14 @@
 package bean;
 
 public abstract class Member {
-    protected String fname;
-    protected String lname;
-    protected String gender;
-    protected String accountNo;
-    protected String phone_num;
-    protected String email_addr;
-    protected String date_of_birth;
-    protected String password;
+    private String fname;
+    private String lname;
+    private String gender;
+    private String accountNo;
+    private String phone_num;
+    private String email_addr;
+    private String date_of_birth;
+    private String password;
     //addr?
 
     /**

@@ -8,17 +8,18 @@ public class Customer extends Member {
     public static final String MEMBERSHIP_NORM="norm";
     public static final String MEMBERSHIP_JUNIOR="junior";
 
-
-    public Customer(String nickname, String membership, String fname,String lname,String gender, String accountNo, String phone_num, String email_addr, String date_of_birth){
+//    C1;12w34fgh;123ddddd;Lisa;Moneban;female;12345678900;12312423@qq.com;2000-4-8;gold;
+    public Customer(String accountNo, String password, String nickname,String fname,String lname,String gender, String phone_num, String email_addr, String date_of_birth, String membership){
+        this.setAccountNo(accountNo);
+        this.setPassword(password);
+        this.nickname = nickname;
+        this.setFname(fname);
+        this.setLname(lname);
+        this.setGender(gender);
+        this.setPhone_num(phone_num);
+        this.setEmail_addr(email_addr);
+        this.setDate_of_birth(date_of_birth);
         this.membership = membership;
-        this.accountNo = accountNo;
-        this.date_of_birth = date_of_birth;
-        this.email_addr = email_addr;
-        this.fname = fname;
-        this.lname = lname;
-        this.gender = gender;
-        this.phone_num = phone_num;
-
     }
 
     public Customer(){}
