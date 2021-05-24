@@ -4,6 +4,7 @@ import bean.Lecture;
 
 import java.io.*;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 public class Match{
 
@@ -161,8 +162,64 @@ public class Match{
             System.out.println("Errors occured:读lecture时间有问题："+e);
         }
        // System.out.println(trainerId);
-        for(int i =0;i<timeList.size();i++)
-            System.out.println(timeList.get(i));//
+//        for(int i =0;i<timeList.size();i++)
+//            System.out.println(timeList.get(i));//
+
+        return timeList;
+    }
+
+    public ArrayList<String> get_NextWeeklectures(String trainerId){//先读booking再读lecture,订课用
+        ArrayList<String> bookingList = new ArrayList<String>();//
+        ArrayList<String> timeList = new ArrayList<String>();//教练已经被占用的时间，是课程编号
+        try{
+            String fileName = "src/main/java/data/booking.TXT";
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String oneLine ;
+            while((oneLine= bufferedReader.readLine()) !=null){
+                String[] info = oneLine.split(";");
+                // System.out.println(oneLine);
+                if(info[2].equals(trainerId)){
+                    bookingList.add(info[0]);
+                    //System.out.println(info[2]);
+                }
+
+            }
+            bufferedReader.close();
+
+        }catch(IOException e){
+            System.out.println("Errors occured:booking 没搜到:  "+e);
+        }
+
+        try{
+            String fileName = "src/main/java/data/lectures.TXT";
+            FileReader fileReader = new FileReader(fileName);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            String oneLine = bufferedReader.readLine();
+            while(oneLine !=null){
+                String[] info = oneLine.split(";");
+                //System.out.println(oneLine);
+                String bookingId = info[0];
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                //System.out.println("搜到的日期"+info[3]);
+                Date theDate=simpleDateFormat.parse(info[3]);
+                Date nextMonday= simpleDateFormat.parse(getNextWeek.getNextWeekday(0));
+
+
+                for(int i=0;i<bookingList.size();i++){
+
+                    if(bookingId.equals(bookingList.get(i))&&!theDate.before(nextMonday))
+                        timeList.add(info[2]);
+                }
+                oneLine = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+        }catch(IOException | ParseException e){
+            System.out.println("Errors occured:订课时，读lecture时间有问题："+e);
+        }
+        // System.out.println(trainerId);
+//        for(int i =0;i<timeList.size();i++)
+//            System.out.println(timeList.get(i));//
 
         return timeList;
     }

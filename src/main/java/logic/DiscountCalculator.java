@@ -126,10 +126,18 @@ public class DiscountCalculator {
         }
     }
 
-   /* public static void main(String[] args){
+   public static void main(String[] args){
         DiscountCalculator dc = new DiscountCalculator();
         System.out.println(dc.calDiscount(2,4));
-    }*/
+    }
+
+    public float getMem_discount() {
+        return mem_discount;
+    }
+
+    public int getrPrice() {
+        return rPrice;
+    }
 
     public ArrayList<Integer> getRule_spent() {
         return rule_spent;

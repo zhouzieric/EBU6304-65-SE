@@ -28,8 +28,6 @@ public class ChangeInfo {
         String fileName = openFile();
         String[] readFile;
 
-
-
         try {
             FileReader fileReader = new FileReader(fileName);
             BufferedReader br = new BufferedReader(fileReader);
@@ -37,10 +35,7 @@ public class ChangeInfo {
 
             if(oLine!=null){
                 readFile = oLine.split(";");
-                cus = new  Customer(readFile[2], readFile[9], readFile[3],readFile[4],readFile[5], readFile[0],readFile[6], readFile[7], readFile[8]);
-                cus.setAccountNo(readFile[0]);
-                cus.setPassword(readFile[1]);
-                //cus.setDiscount(Double.parseDouble(readFile[10]));
+                cus = new  Customer(readFile[0], readFile[1], readFile[2],readFile[3],readFile[4], readFile[5],readFile[6], readFile[7], readFile[8], readFile[9]);
             }else System.out.println("1Txt doesn't have any content");
             br.close();
             fileReader.close();
@@ -63,7 +58,7 @@ public class ChangeInfo {
                 if(oLine!=null){
                     info = oLine.split(";");
                     if(changeType==1){
-                        //change AccNo
+                        //change AccNo  NOT USED NOW
                         cus.setAccountNo(changeCon);
                         info[0] = changeCon;
                         String[] fn = fileName.split("/");
@@ -134,7 +129,7 @@ public class ChangeInfo {
         String fileName = openFile();
         String[] readFile;
 
-        tra = new Trainer();
+
 
         try {
             FileReader fileReader = new FileReader(fileName);
@@ -143,16 +138,7 @@ public class ChangeInfo {
 
             if(oLine!=null){
                 readFile = oLine.split(";");
-                tra.setAccountNo(readFile[0]);
-                tra.setPassword(readFile[1]);
-                tra.setFname(readFile[2]);
-                tra.setLname(readFile[3]);
-                tra.setGender(readFile[4]);
-                tra.setPhone_num(readFile[5]);
-                tra.setEmail_addr(readFile[6]);
-                tra.setDate_of_birth(readFile[7]);
-                tra.setPro(readFile[8]);
-                tra.setRank(Integer.parseInt(readFile[9]));
+                tra = new Trainer(readFile[0],readFile[1],readFile[2],readFile[3],readFile[4],readFile[5],readFile[6],readFile[7],readFile[8],Integer.parseInt(readFile[9]));
 
             }else System.out.println("3Txt doesn't have any content");
 
@@ -180,7 +166,7 @@ public class ChangeInfo {
             if(oLine!=null){
                 info = oLine.split(";");
                 if(changeType==1){
-                    //change AccNo
+                    //change AccNo  NOT USED NOW
                     tra.setAccountNo(changeCon);
                     info[0] = changeCon;
                     String[] fn = fileName.split("/");

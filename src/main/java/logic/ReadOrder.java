@@ -377,8 +377,34 @@ public class ReadOrder {
     }
 
     //订单评价
-    public static boolean addFeedback(String feedback, int rank, String bookingId){
-        boolean isSuccess=false;
+    public static boolean canFeedback(String bookingId){
+        boolean canDo = false;
+        try{
+            String fileName = "src/main/java/data/booking.TXT";
+            File file = new File(fileName);
+            FileReader fileReader = new FileReader(file);
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+
+            String oneLine = bufferedReader.readLine();
+            while(oneLine !=null){
+                String [] info = oneLine.split(";");
+                if (info[0].equals(bookingId) && info[12].equals("null")){
+                    canDo=true;
+                    break;
+                }
+                oneLine = bufferedReader.readLine();
+            }
+            bufferedReader.close();
+
+        }catch(IOException e){
+            System.out.println("Errors occured:加评论时，读订单有问题:"+e);
+        }
+        return canDo;
+    }
+
+
+    //订单评价
+    public static void addFeedback(String feedback, int rank, String bookingId){
         ArrayList<String> bookings = new ArrayList<String>();
         try{
             String fileName = "src/main/java/data/booking.TXT";
@@ -404,15 +430,17 @@ public class ReadOrder {
 
             for(int i=0;i<bookings.size();i++){
                 String booking="";
-                String [] info = bookings.get(i).split(";");
+                String[] info = bookings.get(i).split(";");
+                //System.out.println(bookings.get(i));
                 if(info[0].equals(bookingId)){
-                    if (info[11] .equals("null")){
-                       // System.out.println(info[11]);
-                        info[12]=feedback;
+                    System.out.println("----------------------------------------------------------changed booking id, feed, rank:"+ bookingId + feedback + rank);
+                    //System.out.println(info[11]);
+                    if (info[11].equals("null")){
+                        info[12] = feedback;
                         info[11] = rank+"";
                         for(int j=0;j<info.length;j++)
                             booking = booking + info[j] + ";";
-                        isSuccess = true;
+                        //System.out.println(booking);
                     }else
                         booking = bookings.get(i);
                 }else {
@@ -427,6 +455,5 @@ public class ReadOrder {
         }catch(IOException e){
             System.out.println("写新的订单有问题。");
         }
-        return isSuccess;
     }
 }

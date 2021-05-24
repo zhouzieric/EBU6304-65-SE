@@ -1,5 +1,6 @@
 package logic;
 
+import bean.Customer;
 import pages.*;
 
 
@@ -172,15 +173,15 @@ public class LoginRegisEvent {
                 if(customerRegisJP.getRadio4().isSelected()){
                     customerRegisJP.setGender("male");
                 }else {
-                    customerRegisJP.setGender("feMale");;
+                    customerRegisJP.setGender("female");;
                 }
                 if(customerRegisJP.getRadio6().isSelected()){
-                    customerRegisJP.setMembership("gold");
+                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_GOLD);
 
                 }else if(customerRegisJP.getRadio7().isSelected()){
-                    customerRegisJP.setMembership("norm");
+                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_NORM);
                 }else{
-                    customerRegisJP.setMembership("junior");
+                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_JUNIOR);
                 }
                 customerRegisJP.setInfo(customerRegisJP.getAnum()+";"+customerRegisJP.getPass_get()+";"+customerRegisJP.getAcc_getC()+";"+
                         customerRegisJP.getFname_get()+";"+customerRegisJP.getLname_get()+";"+customerRegisJP.getGender()+";"+customerRegisJP.getPhnum_get()+

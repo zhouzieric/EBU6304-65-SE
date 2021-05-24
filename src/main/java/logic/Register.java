@@ -1,5 +1,7 @@
 package logic;
 
+import bean.Customer;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.*;
@@ -190,9 +192,9 @@ public class Register {
 
             //如果是用户需要支付
             int input = 1;
-            if(membership.equals("gold")){
+            if(membership.equals(Customer.MEMBERSHIP_GOLD)){
                 input = JOptionPane.showConfirmDialog(null,"Are you sure you want to pay $200 to upgrade?    ","Payment",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
-            }else if(membership.equals("norm")){
+            }else if(membership.equals(Customer.MEMBERSHIP_NORM)){
                 input = JOptionPane.showConfirmDialog(null,"Are you sure you want to pay $100 to upgrade?   ","Payment",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
             }
             if((input==0)||((input ==1)&&(membership.equals("trainer")))){

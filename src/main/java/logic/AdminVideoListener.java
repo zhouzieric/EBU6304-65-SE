@@ -147,8 +147,10 @@ public class AdminVideoListener implements ActionListener{
         try {
             File file = new File(path);
             FileWriter fileWriter = new FileWriter(file,true);   //add content as appendix to the file
-
-            fileWriter.write(row+"\n");
+            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
+            bufferedWriter.newLine();
+            bufferedWriter.write(row);
+            bufferedWriter.close();
             fileWriter.close();
 
         }catch (IOException e){

@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 
 import pages.QuestionaireController;
 
+import javax.swing.*;
+
 public class QuestionListener implements ActionListener {
     QuestionaireController frame;
 
@@ -15,7 +17,7 @@ public class QuestionListener implements ActionListener {
     public void actionPerformed(ActionEvent event){
         if (event.getSource()== frame.getJb2()){
             String remind = getInput();
-           // System.out.println(remind);
+            //System.out.println(remind);
             if(remind.equals("ok")){
                 frame.getRemind().setText("");
                 frame.setWhich(frame.getWhich()+1);
@@ -25,7 +27,7 @@ public class QuestionListener implements ActionListener {
             frame.thisPage();
         }
         else if(event.getSource()== frame.getJb1()){
-          //  System.out.println("Click jb1 "+frame.getWhich());
+            //System.out.println("Click jb1 "+frame.getWhich());
             frame.setWhich(frame.getWhich()-1);
             frame.thisPage();
         }
@@ -60,6 +62,11 @@ public class QuestionListener implements ActionListener {
         }else if(frame.getWhich() == 2){
             boolean isSelect1 = frame.getJrb1().isSelected();
             boolean isSelect2 = frame.getJrb2().isSelected();
+            boolean isSelect11 = frame.getJrb11().isSelected();
+            boolean isSelect12 = frame.getJrb12().isSelected();
+            boolean isSelect13 = frame.getJrb13().isSelected();
+            boolean isSelect14 = frame.getJrb14().isSelected();
+            boolean isSelect15 = frame.getJrb15().isSelected();
 
             if (isSelect1) {
                 frame.getQuestionaire().setTarget("weightloss");
@@ -68,9 +75,24 @@ public class QuestionListener implements ActionListener {
             else if (isSelect2) {
                 frame.getQuestionaire().setTarget("shaping");
                 return "ok";
-            }
-            else
+            }else if(isSelect11){
+                frame.getQuestionaire().setTarget("HIIT");
+                return "ok";
+            } else if(isSelect12){
+                frame.getQuestionaire().setTarget("yoga");
+                return "ok";
+            }else if(isSelect13){
+                frame.getQuestionaire().setTarget("strength");
+                return "ok";
+            }else if(isSelect14){
+                frame.getQuestionaire().setTarget("aerobics");
+                return "ok";
+            }else if(isSelect15){
+                frame.getQuestionaire().setTarget("taichi");
+                return "ok";
+            }else
                 return "Please select your target";
+
         }else if(frame.getWhich()==3){
             if(frame.getQuestionaire().getTarget().equals("weightloss")) {
                 String weight="";
@@ -87,7 +109,7 @@ public class QuestionListener implements ActionListener {
                         frame.getQuestionaire().setDetail(frame.getJtf3().getText());
                 }
                 return remindW;
-            }else{
+            }else if(frame.getQuestionaire().getTarget().equals("shaping")){
                 String part;
                 if (frame.getJrb8().isSelected()){
                     part="leg";
@@ -104,7 +126,16 @@ public class QuestionListener implements ActionListener {
                 }else{
                     return "Please select one.";
                 }
+            }else{
+                if(frame.getDetail().getText().equals(""))
+                    return "Please input your requirements.";
+                else{
+                    System.out.println("这是内容："+frame.getDetail().getText());
+                    frame.getQuestionaire().setDetail(frame.getDetail().getText());
+                    return "ok";
+                }
             }
+
         }
         else if(frame.getWhich() == 4){
             int howOften=0;
