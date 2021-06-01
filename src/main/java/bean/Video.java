@@ -1,5 +1,14 @@
+
 package bean;
 
+import logic.ReadFlexibleInfo;
+
+import java.util.ArrayList;
+/**
+ *A bean for every video to save its information.
+ * @author Kezhou Zhang, Gui Jiayi
+ * @version 1.0.0
+ */
 public class Video {
 
     private String videoName;
@@ -7,20 +16,31 @@ public class Video {
     private String videoFormat;
     private int videoType;
     private String description;
-    private int whoCanWatchIt;//能看的最低会员等级
+    private int whoCanWatchIt;
 
-    public static final String CATEGORY_YOGA="Yoga";
-    public static final String CATEGORY_HIIT="HIIT";
-    public static final String CATEGORY_STRENGTH="Strength";
-    public static final String CATEGORY_AEROBICS="Aerobics";
-    public static final String CATEGORY_TAICHI="Tai Chi";
-    public static final String CATEGORY_WEIGHTLOSS="Weightloss";
-    public static final String CATEGORY_SHAPING="Shaping";
+    public static final int CATEGORY_ALL=0;
 
 
 
-
+    /**
+     * For constructing without parameters
+     */
     public Video(){}
+    /**
+     * For constructing a video.
+     * @param  videoName
+     * the name of video
+     * @param coverFormat
+     * the cover's format of video
+     * @param videoFormat
+     * the format of video
+     * @param videoType
+     * the video type. to classify the videos
+     * @param description
+     * the description of the video
+     * @param whoCanWatchIt
+     * The level of permission to watch a video
+     */
     public Video(String videoName,String coverFormat,String videoFormat,int videoType,String description,int whoCanWatchIt){
         this.videoName=videoName;
         this.coverFormat=coverFormat;
@@ -31,88 +51,62 @@ public class Video {
 
     }
 
+    /**
+     * convert a number token to a category name
+     * @param  categoryInt
+     * a number token of what type of video
+     * @return  String
+     * category name
+     */
     public String transCategory(int categoryInt){
-        String categoryStr="";
-        switch (categoryInt) {
-            case 1:
-                categoryStr = CATEGORY_YOGA;
-                break;
-            case 2:
-                categoryStr =CATEGORY_HIIT;
-                break;
-            case 3:
-                categoryStr =CATEGORY_STRENGTH;
-                break;
-            case 4:
-                categoryStr =CATEGORY_AEROBICS;
-                break;
-            case 5:
-                categoryStr =CATEGORY_TAICHI;
-                break;
-            case 6:
-                categoryStr =CATEGORY_WEIGHTLOSS;
-                break;
-            case 7:
-                categoryStr =CATEGORY_SHAPING;
-                break;
+        String categoryRow = ReadFlexibleInfo.readFile(3);
+        String[] category = categoryRow.split(";");
 
-        }
-        return categoryStr;
+        return category[categoryInt-1];
     }
 
+    /**
+     * convert a String category name to a associated number token
+     * @param  categoryStr
+     * a String of video type name
+     * @return  int
+     * a number token representing specified video category
+     */
     public int revTransCategory(String categoryStr){
+        String categoryRow = ReadFlexibleInfo.readFile(3);
+        String[] category = categoryRow.split(";");
         int categoryInt =0;
-        switch (categoryStr){
-            case CATEGORY_YOGA:
-               categoryInt =1;
-               break;
-            case CATEGORY_HIIT:
-                categoryInt =2;
-                break;
-            case CATEGORY_STRENGTH:
-                categoryInt =3;
-                break;
-            case CATEGORY_AEROBICS:
-                categoryInt =4;
-                break;
-            case CATEGORY_TAICHI:
-                categoryInt =5;
-                break;
-            case CATEGORY_WEIGHTLOSS:
-                categoryInt =6;
-                break;
-            case CATEGORY_SHAPING:
-                categoryInt =7;
-                break;
+        for(int i=0;i<category.length;i++){
+            if(category[i].equals(categoryStr)) categoryInt=i+1;
         }
         return categoryInt;
     }
 
+    /**
+     * convert a number token to a associated membership name
+     * @param  memInt
+     * a number token of what type of membership
+     * @return  String
+     * membership name
+     */
     public String transMem(int memInt){
-        String memStr="";
-        Customer cus = new Customer();
-
-        switch (memInt){
-            case 0:
-                memStr = cus.MEMBERSHIP_JUNIOR;
-                break;
-            case 1:
-                memStr = cus.MEMBERSHIP_NORM;
-                break;
-            case 2:
-                memStr = cus.MEMBERSHIP_GOLD;
-                break;
-        }
-        return memStr;
+        ArrayList<String> memRank = Customer.getRevMemRank();
+        return memRank.get(memInt);
     }
 
+    /**
+     * convert a String membership name to a associated number token
+     * @param  memStr
+     * a String of the name of membership
+     * @return  int
+     * associated number token of that given membership
+     */
     public int revTransMem(String memStr){
+        ArrayList<String> memRank = Customer.getRevMemRank();
         int memInt =-1;
-        Customer cus = new Customer();
-        if(memStr.equals(cus.MEMBERSHIP_JUNIOR)) memInt = 0;
-        if(memStr.equals(cus.MEMBERSHIP_NORM)) memInt = 1;
-        if(memStr.equals(cus.MEMBERSHIP_GOLD)) memInt = 2;
-
+        for(int i=0;i<memRank.size();i++){
+            if(memStr.equals(memRank.get(i))) memInt=i;
+;        }
         return memInt;
     }
 

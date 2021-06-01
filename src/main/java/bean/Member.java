@@ -1,5 +1,9 @@
 package bean;
-
+/**
+ *This class is about gym member
+ * @author Gui Jiayi
+ * @version 2.0
+ */
 public abstract class Member {
     private String fname;
     private String lname;
@@ -11,9 +15,6 @@ public abstract class Member {
     private String password;
     //addr?
 
-    /**
-     * Getters and Setters
-     */
     public String getLname() {
         return lname;
     }

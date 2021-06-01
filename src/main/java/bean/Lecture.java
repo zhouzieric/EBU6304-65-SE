@@ -1,16 +1,18 @@
 package bean;
 
+/**
+ *This class is about the lecture of member live course
+ * @author Wang Pei
+ * @version 2.0
+ */
 public class Lecture {
-    //private String lectureId;
     private String bookingId;
     private String content;
     private int mark;
     private String date;
     private String cancelDate ;
 
-    public Lecture(){
-        this.content = " ";
-    }
+    public Lecture(){ }
 
     public String getBookingId(){
         return bookingId;
@@ -19,14 +21,6 @@ public class Lecture {
     public void setBookingId(String bookingId){
         this.bookingId = bookingId;
     }
-
-//    public String getLectureId() {
-//        return lectureId;
-//    }
-//
-//    public void setLectureId(String lectureId) {
-//        this.lectureId = lectureId;
-//    }
 
     public String getContent() {
         return content;

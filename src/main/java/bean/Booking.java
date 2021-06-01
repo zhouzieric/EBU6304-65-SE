@@ -1,7 +1,10 @@
 package bean;
 
-import java.util.Date;
-
+/**
+ *This class is about the booking of member live course
+ * @author Wang Pei
+ * @version 4.0
+ */
 public class Booking {
     private String bookingID;
     private String cusID;
@@ -13,6 +16,9 @@ public class Booking {
     private Integer star;
     private Questionnaire questionnaire;
 
+    /**
+     * Booking Class construction to initialize variable 'status'.
+     */
     public Booking(){
         this.status = 1;
     }

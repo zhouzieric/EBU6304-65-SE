@@ -1,7 +1,19 @@
-package bean;
 
+package bean;
+/**
+ * This class is a bean class
+ * for admin to store information
+ * @author Gui Jiayi
+ * @version 1.0
+ */
 public class Admin {
+    /**
+     * number the administrator given
+     */
     private String acc_No;
+    /**
+     * password the administrator given
+     */
     private String password;
 
     public String getAcc_No() {

@@ -1,5 +1,9 @@
 package bean;
-
+/**
+ *This class is about questionnarie that filled by member before booking live session
+ * @author Wang Pei
+ * @version 2.0
+ */
 public class Questionnaire{
     private String target;
     private String detail;
@@ -8,7 +12,7 @@ public class Questionnaire{
     private int howOften;
 
     public String getTarget() {
-        return target;
+        return this.target;
     }
 
     public void setTarget(String target) {
@@ -16,7 +20,7 @@ public class Questionnaire{
     }
 
     public String getDetail() {
-        return detail;
+        return this.detail;
     }
 
     public void setDetail(String detail) {
@@ -24,7 +28,7 @@ public class Questionnaire{
     }
 
     public double getWeight() {
-        return weight;
+        return this.weight;
     }
 
     public void setWeight(double weight) {
@@ -32,7 +36,7 @@ public class Questionnaire{
     }
 
     public double getHeight() {
-        return height;
+        return this.height;
     }
 
     public void setHeight(double height) {
@@ -40,7 +44,7 @@ public class Questionnaire{
     }
 
     public int getHowOften() {
-        return howOften;
+        return this.howOften;
     }
 
     public void setHowOften(int howOften) {

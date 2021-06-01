@@ -1,5 +1,9 @@
 package bean;
-
+/**
+ *This class is about gym trainer
+ * @author Wang Pei
+ * @version 2.0
+ */
 public class Trainer extends Member {
     private String pro;
     private int rank;
