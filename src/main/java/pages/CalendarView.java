@@ -2,7 +2,6 @@ package pages;
 
 import bean.Questionnaire;
 
-import logic.CusCalendarListener;
 import logic.Match;
 import logic.getNextWeek;
 import logic.lectureNumToBox;
@@ -15,7 +14,11 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
 import java.util.ArrayList;
-
+/**
+ * This page is used for customers to select courses and purchase courses
+ * @author Kezhou Zhang
+ * @version 1.0.0
+ */
 public class CalendarView extends JPanel {
 
     private JFrame belongsTo;
@@ -54,7 +57,11 @@ public class CalendarView extends JPanel {
     ReservationPanel reservationPanel;
     JDialog checkBill;
 
-
+    /**
+     * For constructing without parameters.
+     * @exception  ParseException
+     * An exception may be thrown during data format conversion
+     */
     public CalendarView() throws ParseException {
 
         JSplitPane splitPane = new JSplitPane();//母板
@@ -63,25 +70,6 @@ public class CalendarView extends JPanel {
        selectT.getViewport().add(inSelectT);
         rightP= new JPanel();//右
          weekTable= new JPanel();
-
-
-//        JButton comfirm = new JButton("Comfirm Selected");
-//        comfirm.addActionListener((e)->{
-//            ReservationPanel reservationPanel=new ReservationPanel();
-//            reservationPanel.setSelected(checkLectureSelected());
-//            reservationPanel.revalidate();//setcusID,setTID,setlevel,setquestionnaire
-//            reservationPanel.setTID(TID);
-//            reservationPanel.setSelectedLecturesNum(selectedLecturesNum);
-//            JDialog checkBill = new JDialog(belongsTo,"Check the Reservation",true);
-//            checkBill.setBounds(400,200,600,500);
-//            //checkBill.dispose();
-//
-//            checkBill.add(reservationPanel);
-//            checkBill.setVisible(true);
-//        });
-
-
-
 
         // 设置左右两边显示的组件
         splitPane.setLeftComponent(selectT);
@@ -118,7 +106,13 @@ public class CalendarView extends JPanel {
 
     }
 
-
+    /**
+     * update the right page table
+     * @param  state
+     * the state of the questionnaire: "ready" or "none" or "filled"
+     * @exception  ParseException
+     * An exception may be thrown during data format conversion
+     */
     public void updateRightTable(String state) throws ParseException {
         if(state.equals("none")){
             weekTable.removeAll();
@@ -149,7 +143,7 @@ public class CalendarView extends JPanel {
                 }
             }
             //这里打算写读到的已经被订的课
-            ArrayList<String> AllLecturesNum = new Match().get_NextWeeklectures(TID);
+            ArrayList<String> AllLecturesNum = Match.get_NextWeeklectures(TID);
             for(String showLec:AllLecturesNum){
                 int[] TheLocation =lectureNumToBox.changeToLocation(Integer.parseInt(showLec));
                 boxTable[TheLocation[0]][TheLocation[1]].setEnabled(false);
@@ -165,7 +159,7 @@ public class CalendarView extends JPanel {
                     boxTable[TheLocation[0]][TheLocation[1]].setBackground(MaterialColors.BROWN_900);
 
             }
-            comfirm = new JButton("Comfirm Selected Lectures!");
+            comfirm = new JButton("Confirm Selected Lectures!");
             rightP.add(comfirm,BorderLayout.SOUTH);
 
             comfirm.setForeground(MaterialColors.TEAL_A700);
@@ -217,7 +211,9 @@ public class CalendarView extends JPanel {
 
 
     }
-
+    /**
+     * update the left trainer information
+     */
     public void updateLeftList(){
         if(AllTID!=null) {
             //长度取决于搜到多少教练和一个窗口能显示多少教练，所以这里应该先得到获取结果
@@ -242,10 +238,6 @@ public class CalendarView extends JPanel {
                 inSelectT.revalidate();
             }
 
-
-
-
-
         }else{
             JLabel NoneNote= new JLabel("Fill in your information, then we will GO!");
             inSelectT.add(NoneNote);
@@ -253,6 +245,37 @@ public class CalendarView extends JPanel {
 
 
     }
+    /**
+     * get the lecture marks customer selects
+     * @return String
+     * lecture marks customer selects
+     */
+    private String checkLectureSelected(){
+        String selected="<html>";
+        String str="";
+        ArrayList<Integer> selectedLecturesNum =new ArrayList<Integer>();
+
+
+        for(int x=0;x<6;x++){
+
+            for(int y=0;y<7;y++) {
+                if(boxTable[x][y].isSelected()){
+                    selectedLecturesNum.add(y*6+x);
+                   str = logic.getNextWeek.displayTP(y*6+x);
+                    selected=selected+"<br>"+str;}
+            }
+        }
+        this.selectedLecturesNum=selectedLecturesNum;
+        System.out.println("课程号们是"+this.selectedLecturesNum);
+
+
+        selected=selected+"</html>";
+       if(selected.equals("<html></html>")){return "NOT SELECTED";}
+
+        return selected;
+    }
+
+
 
     public void setBelongsTo(JFrame jFrame){
         this.belongsTo=jFrame;
@@ -265,32 +288,6 @@ public class CalendarView extends JPanel {
 
     public void setQuestionaire(Questionnaire questionaire) {
         this.questionaire = questionaire;
-    }
-
-    private String checkLectureSelected(){
-        String selected="<html>";
-        String str="";
-        ArrayList<Integer> selectedLecturesNum =new ArrayList<Integer>();
-
-
-        for(int x=0;x<6;x++){
-
-            for(int y=0;y<7;y++) {
-                if(boxTable[x][y].isSelected()){
-                    selectedLecturesNum.add(y*6+x);
-                   str = new getNextWeek().displayTP(y*6+x);
-                    selected=selected+"<br>"+str;}
-            }
-        }
-        this.selectedLecturesNum=selectedLecturesNum;
-        System.out.println("课程号们是"+this.selectedLecturesNum);
-
-
-        selected=selected+"</html>";
-       if(selected.equals("<html></html>")){return "NOT SELECTED";}
-
-        return selected;
-
     }
 
     public String getTID() {

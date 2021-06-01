@@ -1,3 +1,9 @@
+/**
+ * This class is a UI to let administrator
+ * to manage sports videos show in the member page
+ * @author Gui Jiayi
+ * @version 3.4
+ */
 package pages;
 
 import bean.Video;
@@ -45,7 +51,9 @@ public class AdminVideoController extends JPanel {
     private DefaultTableModel tableModel;
     private AdminVideoListener avl;
 
-
+    /**
+     * This is a constructor initializer for UI to show
+     */
     public AdminVideoController(){
         /*
         //JPanel CardContainer = new JPanel();
@@ -105,6 +113,7 @@ public class AdminVideoController extends JPanel {
         table.getTableHeader().setResizingAllowed(false);  //not allow to resize manually
         table.getTableHeader().setReorderingAllowed(false);  //not allow to reorder table manually
 
+        //set length and width of each cell for information to show clearly
         table.setRowHeight(30);
         table.getColumnModel().getColumn(0).setPreferredWidth(150);
         table.getColumnModel().getColumn(1).setPreferredWidth(150);
@@ -115,7 +124,7 @@ public class AdminVideoController extends JPanel {
         table.setPreferredScrollableViewportSize(new Dimension(1200,400));
 
 
-        JScrollPane scrollPane = new JScrollPane(table);
+        JScrollPane scrollPane = new JScrollPane(table); // add component on the scroll pane
         pVideoRecord.add(scrollPane);
 
 
@@ -150,9 +159,6 @@ public class AdminVideoController extends JPanel {
         avl.setAvc(this);
 
 
-        //
-
-        //data sheet class including video description?
 
 
 
@@ -183,7 +189,7 @@ public class AdminVideoController extends JPanel {
     }
 
 
-
+//test activator
     public static void main(String[] args) throws UnsupportedLookAndFeelException {
         AdminVideoController adminVideoController = new AdminVideoController();
 

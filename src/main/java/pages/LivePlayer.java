@@ -1,13 +1,23 @@
 package pages;
 
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
 import logic.changeIcon;
 import uk.co.caprica.vlcj.player.component.EmbeddedMediaPlayerComponent;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.*;
 import java.util.Date;
-
+/**
+ *This page is to show the live teaching.
+ * @author Kezhou Zhang
+ * @version 1.0.0
+ */
 public class LivePlayer extends JPanel {
 
     private JPanel belongsto;
@@ -23,7 +33,9 @@ public class LivePlayer extends JPanel {
     String url;
 
 
-
+    /**
+     * For constructing a page without parameters.
+     */
     public LivePlayer(){
 
         url="src/main/java/videos/Shaping2.mp4";
@@ -55,11 +67,61 @@ public class LivePlayer extends JPanel {
         videoInfoPane.add(new JLabel("This lecture will learn new things!"));
 
         //右侧聊天框
+        videoChatPane.setLayout(new BorderLayout(5,5));
+        JButton cam=new JButton("Open camera");
+        cam.addActionListener(e -> {
+            JFrame window = new JFrame("Your camera");
+            JButton Btn = (JButton) e.getSource();
 
+
+                Webcam webcam = Webcam.getDefault();
+               // webcam.setViewSize(WebcamResolution.VGA.getSize());
+
+                WebcamPanel panel = new WebcamPanel(webcam);
+                panel.setFPSDisplayed(true);
+                panel.setDisplayDebugInfo(true);
+                panel.setImageSizeDisplayed(true);
+                panel.setMirrored(true);
+
+
+                window.add(panel);
+                window.setResizable(true);
+                window.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosing(WindowEvent e) {
+                        JFrame window = (JFrame) e.getSource();
+                        window.dispose();
+                    }
+                });
+                window.pack();
+                window.setVisible(true);
+
+
+
+        });
+
+        videoChatPane.add(cam,BorderLayout.NORTH);
+        JToggleButton mic=new JToggleButton("Open Microphone");
+//        mic.addChangeListener(e -> {
+//
+//            JToggleButton toggleBtn = (JToggleButton) e.getSource();
+//            JLabel Mreminder=new JLabel("Microphong is opening!");
+//            if(toggleBtn.isSelected()) {
+//
+//
+//                videoChatPane.add(Mreminder,BorderLayout.EAST);
+//            }else{
+//
+//                videoChatPane.remove(Mreminder);
+//            }
+//        });
+        videoChatPane.add(mic,BorderLayout.CENTER);
         System.out.println("准备就绪");
         //mediaPlayerComponent.mediaPlayer().media().play("C:\\Users\\Lenovo\\Videos\\Captures\\Stardew Valley 2021-01-17 20-15-54.mp4");
     }
-
+    /**
+     * play the video.
+     */
     public void toPlay(){
         System.out.println("开始播放");
         mediaPlayerComponent.mediaPlayer().media().play(url);

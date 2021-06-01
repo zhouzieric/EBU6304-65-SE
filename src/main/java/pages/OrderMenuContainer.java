@@ -1,8 +1,14 @@
 package pages;
 
+import logic.readAccLogin;
+
 import javax.swing.*;
 
-
+/**
+ * the page is contain all order pages to manage them.
+ * @author Kezhou Zhang
+ * @version 1.0.0
+ */
 public class OrderMenuContainer extends JTabbedPane {
     //private JPanel ctable;
     private OrdersPanel showAllOrders;
@@ -11,26 +17,25 @@ public class OrderMenuContainer extends JTabbedPane {
     private OrdersPanel showFinishedOrders;
     private OrdersPanel showCanceledOrders;
 
-
-
+    /**
+     * For constructing a container without parameters.
+     */
     public OrderMenuContainer(){
         super();
         setTabPlacement(JTabbedPane.LEFT);//默认在左，右边不好看
 
-        showAllOrders = new OrdersPanel(0, this);
-        showPaidOrders = new OrdersPanel(1, this);
-        showOngoingOrders = new OrdersPanel(2, this);
-        showFinishedOrders = new OrdersPanel(3, this);
-        showCanceledOrders = new OrdersPanel(4, this);
-
-       // System.out.println("i am first here ------------------------------------------------------------");
+        showAllOrders = new OrdersPanel(0);
+        showPaidOrders = new OrdersPanel(1);
+        showOngoingOrders = new OrdersPanel(2);
+        showFinishedOrders = new OrdersPanel(3);
+        showCanceledOrders = new OrdersPanel(4);
 
         this.addTab("All orders",showAllOrders);
         this.addTab("Paid orders",showPaidOrders);
         this.addTab("Ongoing orders",showOngoingOrders);
         this.addTab("Finished orders",showFinishedOrders);
         this.addTab("Canceled orders",showCanceledOrders);
-      //  this.addTab("My calendar",ctable);
+        //this.addTab("My calendar",ctable);
 
         this.addChangeListener(e -> {
             if (e.getSource() instanceof JTabbedPane) {
@@ -45,13 +50,6 @@ public class OrderMenuContainer extends JTabbedPane {
             }
 
         });
-
-
-
-
-
-
-
     }
 
 

@@ -1,1 +1,1 @@
-C2;1234rtyh;1234ref;Bai;Li;Male;12345678234;1234djfeg@236.com;2018-04-10;junior;
+C2;1234rtyh;1234ref;Bai;Li;Male;12345678234;1234djfeg@236.com;2018-04-10;gold;

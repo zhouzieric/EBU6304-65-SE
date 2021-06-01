@@ -1,3 +1,4 @@
+
 package logic;
 
 import bean.Customer;
@@ -7,7 +8,14 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+/**
+ * This class is used to calculate discount
+ * based on the membership of the member,
+ * the live training number booked, the trainer rank booked
+ * and total price with full discount rule
+ * @author Gui Jiayi
+ * @version 2.0
+ */
 public class DiscountCalculator {
     //Used to calculate total price
     private ArrayList<Integer> rule_spent;
@@ -16,20 +24,34 @@ public class DiscountCalculator {
     private int rPrice;
     private double totalPri;
 
-    public DiscountCalculator(){
+    /**
+     * For constructing without parameters
+     */
+    public DiscountCalculator(){}
+
+    /**
+     * Get the total price of all kinds of deduction and calculation of a booking
+     * @param rank
+     * the rank of the trainer booked
+     * @param lec_num
+     * number of live lectures booked
+     * @return double
+     * total price after calculation
+     */
+    public double calDiscount(int rank, int lec_num){
         String acc_login=readAccLogin.readFile();
         ChangeInfo changeInfo = new ChangeInfo(acc_login);
         Customer cus=changeInfo.readCusInfo();
-        readMemPrice(cus.getMembership());
-    }
+        mem_discount=ReadFlexibleInfo.readMemPrice(cus.getMembership()); //get membership discount
 
-    public double calDiscount(int rank, int lec_num){
-        rPrice = readRankPrice(rank); System.out.println(rPrice);
-        readRule();
-        totalPri= lec_num*rPrice*mem_discount;
+
+        rPrice = ReadFlexibleInfo.readRankPrice(rank); System.out.println(rPrice);  //get rank price
+        this.setRule_minus(ReadFlexibleInfo.readRule().getRule_minus());
+        this.setRule_spent(ReadFlexibleInfo.readRule().getRule_spent());
+        totalPri= lec_num*rPrice*mem_discount;  //get total price before full deduction
         System.out.println(totalPri);
 
-        for(int i=rule_spent.size();i>0;i--){
+        for(int i=rule_spent.size();i>0;i--){   //calculate the price under full reduction rule
             if(totalPri>=rule_spent.get(i-1)){
                 totalPri= totalPri-rule_minus.get(i-1);
                 System.out.println(rule_spent.get(i-1)+"-"+rule_minus.get(i-1));
@@ -40,7 +62,7 @@ public class DiscountCalculator {
         return this.totalPri;
     }
 
-    public void readMemPrice(String membership){
+   /* public void readMemPrice(String membership){
         String filename="src/main/java/data/membership_discount.txt";
         try{
             FileReader fileReader=new FileReader(filename);
@@ -124,7 +146,7 @@ public class DiscountCalculator {
         }catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 
    public static void main(String[] args){
         DiscountCalculator dc = new DiscountCalculator();
@@ -133,10 +155,6 @@ public class DiscountCalculator {
 
     public float getMem_discount() {
         return mem_discount;
-    }
-
-    public int getrPrice() {
-        return rPrice;
     }
 
     public ArrayList<Integer> getRule_spent() {

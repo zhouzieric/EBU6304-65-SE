@@ -1,8 +1,20 @@
 package logic;
 
+/**
+ *This class is to test whether the input from questionnaire page is valid.
+ * @author Wang Pei
+ * @version 2.0
+ */
+
 public class TestInput{
-    //weight,height,detail
-    //包含不是数字的；明显不在范围内的
+
+    /**
+     * Check whether weight input by user is valid.
+     * @param  input
+     * Weight input by user.
+     * @return  String
+     * If input is valid, return ok, else return the reason why it is invalid.
+     */
     public String isWeight(String input){
         if(input.equals("")){
             return "Please input your weight";
@@ -21,7 +33,15 @@ public class TestInput{
         else
             return "ok";
     }
-    public String isHeight(String input){
+    /**
+     * Check whether height input by user is valid.
+     * @param  input
+     * Height input by user.
+     * @return  String
+     * If input is valid, return ok, else return the reason why it is invalid.
+     */
+
+public String isHeight(String input){
         if(input.equals("")){
             return "Please input your height";
         }

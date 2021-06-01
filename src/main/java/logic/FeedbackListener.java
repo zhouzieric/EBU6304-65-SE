@@ -1,24 +1,33 @@
 package logic;
 
-import bean.Questionnaire;
-import pages.CalendarView;
 import pages.OrdersPanel;
-import pages.QuestionaireController;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
+/**
+ *This class is used to respond to user actions on the feedback page, collect user input.
+ * @author Wang Pei
+ * @version 4.0
+ */
 
 public class FeedbackListener implements ActionListener {
-    private FeedbackController feedback;
+    private pages.FeedbackController feedback;
     private OrdersPanel ordersPanel;
 
-    public FeedbackListener(FeedbackController frame, OrdersPanel ordersPanel){
+    /**
+     * Construction of this class
+     * @param  frame FeedbackController
+     * @param ordersPanel OrderPanel
+     */
+    public FeedbackListener(pages.FeedbackController frame, OrdersPanel ordersPanel){
         this.feedback = frame;
         this.ordersPanel = ordersPanel;
     }
+    /**
+     * actionPerformed of the actionlistener in feedback page.
+     * @param  e ActionEvent
+     */
     public void actionPerformed(ActionEvent e){
         System.out.println(feedback.getSelectRate().getValue());
         System.out.println(feedback.getReviewText().getText());

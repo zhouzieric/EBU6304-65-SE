@@ -1,3 +1,9 @@
+/**
+ *  This class is a UI for administrator to
+ *  add video with detailed information
+ * @author Gui Jiayi
+ * @version 3.2
+ */
 package pages;
 
 import bean.Customer;
@@ -10,6 +16,7 @@ import java.io.*;
 import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class AddVideoGUI implements ActionListener{
     private JFrame frame;
@@ -23,23 +30,36 @@ public class AddVideoGUI implements ActionListener{
     private JComboBox<String> cbCategory;
     private JTextArea taIntro;
 
-    String vName;
-    String vCFormat;
-    String vFormat;
-    String videoText;
-    String videoCoverText;
-    Object[] rowData;
-    int flag=0;
+    private String vName;
+    private String vCFormat;
+    private String vFormat;
+    private String videoText;
+    private String videoCoverText;
+    private Object[] rowData;
+    private int flag=0;
     private JComboBox<String> cbLowest;
 
-
+    /**
+     * This a constructor to pass parameters
+     * @param avc
+     * let the class be able to change the object AdminVideoController passed
+     * @param avl
+     * let the class be able to change the object AdminVideoListener passed
+     */
     public AddVideoGUI(AdminVideoController avc, AdminVideoListener avl){
         this.avc =avc;
         this.avl = avl;
     }
 
+
+    /**
+     * For constructing without parameters
+     */
     public AddVideoGUI(){}
 
+    /**
+     * This is a initializer for UI to show
+     */
     public void go(){
 
         JPanel pVideoInfo = new JPanel();
@@ -64,7 +84,7 @@ public class AddVideoGUI implements ActionListener{
         //Video Chooser
         JPanel pVideoChooser = new JPanel();
         pVideoInfo.add(pVideoChooser);
-        pVideoChooser.setLayout(new BoxLayout(pVideoChooser,BoxLayout.Y_AXIS));
+        //pVideoChooser.setLayout(new BoxLayout(pVideoChooser,BoxLayout.Y_AXIS));
         JLabel labelVideo = new JLabel("Choose Video From File:  ");
         bVideoChooser = new JButton("Choose");
         bVideoChooser.addActionListener(this);
@@ -74,7 +94,7 @@ public class AddVideoGUI implements ActionListener{
         //Video Cover Chooser
         JPanel pVideoCoverChooser = new JPanel();
         pVideoInfo.add(pVideoCoverChooser);
-        pVideoCoverChooser.setLayout(new BoxLayout(pVideoCoverChooser,BoxLayout.Y_AXIS));
+        //pVideoCoverChooser.setLayout(new BoxLayout(pVideoCoverChooser,BoxLayout.Y_AXIS));
         JLabel labelVideoCover = new JLabel("Choose Video Cover From File:  ");
         bVideoCoverChooser = new JButton("Choose");
         bVideoCoverChooser.addActionListener(this);
@@ -85,11 +105,12 @@ public class AddVideoGUI implements ActionListener{
         //Video Category
         JPanel pCategory = new JPanel();
         pVideoInfo.add(pCategory);
-        //pCategory.setLayout(new BoxLayout(pCategory,BoxLayout.Y_AXIS));
         JLabel lCategory = new JLabel("Video Category:  ");
         String[] listCategory = new String[]{"Yoga","HIIT","Strength","Aerobics","Tai Chi","Weightloss","Shaping"};
+        //lCategory.setLayout(new BoxLayout(lCategory,BoxLayout.Y_AXIS));
         cbCategory = new JComboBox<String>(listCategory);
         cbCategory.setSelectedIndex(0);
+        //cbCategory.setLayout(new BoxLayout(cbCategory,BoxLayout.Y_AXIS));
         pCategory.add(lCategory);
         pCategory.add(cbCategory);
 
@@ -108,9 +129,10 @@ public class AddVideoGUI implements ActionListener{
         //Video Lowest Class Viewing
         JPanel pLowest = new JPanel();
         pVideoInfo.add(pLowest);
-        //pLowest.setLayout();
+        //pLowest.setLayout(new BoxLayout(pLowest,BoxLayout.Y_AXIS));
         JLabel lLowest = new JLabel("Video Lowest Class Viewing:  ");
-        String[] listLowest = new String[]{Customer.MEMBERSHIP_GOLD,Customer.MEMBERSHIP_NORM,Customer.MEMBERSHIP_JUNIOR};
+        ArrayList<String> memRank = Customer.getMemRank();
+        String[] listLowest = memRank.toArray(new String[memRank.size()]);
         cbLowest = new JComboBox<String>(listLowest);
         cbLowest.setSelectedIndex(2);
         pLowest.add(lLowest);
@@ -126,7 +148,11 @@ public class AddVideoGUI implements ActionListener{
         frame.getContentPane().add(BorderLayout.SOUTH,pSouth);
     }
 
-
+    /**
+     * Action event for all buttons on the AddVideoGUI to response
+     * @param e
+     * Actionevent for button added
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Video video = new Video();

@@ -1,22 +1,19 @@
 package logic;
 
-import bean.Customer;
 import pages.*;
 
-
 import javax.swing.*;
-import javax.swing.text.View;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.text.ParseException;
-
-//处理登录注册事件的类
+/**
+ *Class that handles login registration events
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 public class LoginRegisEvent {
 
     private EnterJpanel enterJpanel;
@@ -29,10 +26,14 @@ public class LoginRegisEvent {
     private TrainerRegisJP trainerRegisJP;
     private StandardFrame standardFrame;
     private JFrame jFrame;
-
+/**
+ * handles login registration events
+ * @param  enterFrame EnterFrame to operate
+ * @param jFrame JFrame to operate
+ */
     public void response(EnterFrame enterFrame, JFrame jFrame){
 
-    //教练注册提交信息
+    //Coaches register and submit information
         trainerRegisJP.getSubmit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -48,11 +49,12 @@ public class LoginRegisEvent {
                 trainerRegisJP.setEmail_get(trainerRegisJP.getT8().getText());
                 trainerRegisJP.setPro_get(trainerRegisJP.getPro().getSelectedItem().toString());
                 trainerRegisJP.setRank_get(trainerRegisJP.getRank().getSelectedItem().toString());
-                trainerRegisJP.setPass_confirm(register.pass_confir(trainerRegisJP.getPass_get(),trainerRegisJP.getPass_get1(),trainerRegisJP.getJl3()));
+                trainerRegisJP.setPass_confirm(register.pass_confir(trainerRegisJP.getPass_get(),trainerRegisJP
+                        .getPass_get1(),trainerRegisJP.getJl3()));
                 if(trainerRegisJP.getRadio4().isSelected()){
                     trainerRegisJP.setGender("male");
                 }else {
-                    trainerRegisJP.setGender("feMale");;
+                    trainerRegisJP.setGender("female");;
                 }
 
                 trainerRegisJP.setInfo(trainerRegisJP.getAnum()+";"+trainerRegisJP.getPass_get()+";"+trainerRegisJP.getFname_get()+";"+
@@ -60,11 +62,11 @@ public class LoginRegisEvent {
                         ";"+trainerRegisJP.getBirth_get()+";"+trainerRegisJP.getPro_get()+";"+trainerRegisJP.getRank_get()+"\r\n");
                 register.can_submit(trainerRegisJP.getSucc(),trainerRegisJP.getAnum(),"",trainerRegisJP.getJl1(),trainerRegisJP.getPass_get(),
                         trainerRegisJP.getPhnum_get(),trainerRegisJP.getJl4(),trainerRegisJP.getEmail_get(),trainerRegisJP.getJl5(),trainerRegisJP.getJl2(),
-                        trainerRegisJP.getInfo(),login,"T",trainerRegisJP.getPass_confirm(),trainerRegisJP.getFname_get(),trainerRegisJP.getJl6(),
+                        trainerRegisJP.getInfo(),trainerRegisJP.getPass_confirm(),trainerRegisJP.getFname_get(),trainerRegisJP.getJl6(),
                         trainerRegisJP.getLname_get(), trainerRegisJP.getJl7(),trainerRegisJP.getBirth_get() ,trainerRegisJP.getJl8(),"trainer"); }
         });
 
-        //控制性别只能单选
+        //Control customer's gender only single choice
         customerRegisJP.getRadio4().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -72,6 +74,7 @@ public class LoginRegisEvent {
 
             }
         });
+        //Control customer's gender only single choice
         customerRegisJP.getRadio5().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,7 +82,7 @@ public class LoginRegisEvent {
 
             }
         });
-
+        //Control trainer's gender only single choice
         trainerRegisJP.getRadio4().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -87,6 +90,7 @@ public class LoginRegisEvent {
 
             }
         });
+        //Control trainer's gender only single choice
         trainerRegisJP.getRadio5().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -94,7 +98,38 @@ public class LoginRegisEvent {
 
             }
         });
-        //用户登录
+
+        //trainer login
+        traLoginJp.getLogin_but().addActionListener((e)->{
+            traLoginJp.setAccNo_get(traLoginJp.getAccNo_text().getText());
+            traLoginJp.setPassword_get(traLoginJp.getPassword_text().getText());
+            Login login=new Login();
+            traLoginJp.getLogin_result().setText(login.login(traLoginJp.getAccNo_get(),traLoginJp.getPassword_get()));
+            if(traLoginJp.getLogin_result().getText().equals("Login successfully!")){
+                login.setAccLogin(traLoginJp.getAccNo_get());
+                try{
+                    FileWriter fileWriter=new FileWriter(traLoginJp.getFilename());
+                    BufferedWriter bufferedWriter=new BufferedWriter(fileWriter);
+                    bufferedWriter.write(traLoginJp.getAccNo_get());
+                    bufferedWriter.close();
+                    fileWriter.close();
+                } catch (IOException ioException) {
+                    ioException.printStackTrace();
+                }
+                try {
+
+                    new view().cAsTrainerGUI();
+                    jFrame.dispose();
+
+                } catch (UnsupportedLookAndFeelException | ParseException unsupportedLookAndFeelException) {
+                    unsupportedLookAndFeelException.printStackTrace();
+                }
+            }else{
+                enterFrame.getCardLayout().show(enterFrame,"T_login");
+            }
+        });
+
+        //customer login
         customLoginJp.getLogin_but().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,45 +150,21 @@ public class LoginRegisEvent {
                         ioException.printStackTrace();
                     }
                     try {
+
                         new view().createAndShowGUI();
-                        //不好使了
-//                        customLoginJp.getBelongsTo().dispose();
                         jFrame.dispose();
+
                     } catch (UnsupportedLookAndFeelException | ParseException unsupportedLookAndFeelException) {
                         unsupportedLookAndFeelException.printStackTrace();
                     }
+                }else{
+                    enterFrame.getCardLayout().show(enterFrame,"C_login");
+
                 }
             }
         });
 
-        //控制用户选membership只能单选
-        customerRegisJP.getRadio6().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                customerRegisJP.getRadio7().setSelected(false);
-                customerRegisJP.getRadio8().setSelected(false);
-            }
-        });
-
-        //控制用户选membership只能单选
-        customerRegisJP.getRadio7().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                customerRegisJP.getRadio6().setSelected(false);
-                customerRegisJP.getRadio8().setSelected(false);
-            }
-        });
-
-        //控制用户选membership只能单选
-        customerRegisJP.getRadio8().addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                customerRegisJP.getRadio6().setSelected(false);
-                customerRegisJP.getRadio7().setSelected(false);
-            }
-        });
-
-        //用户注册提交信息
+        //Users register to submit information
         customerRegisJP.getSubmit().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -169,32 +180,27 @@ public class LoginRegisEvent {
                 customerRegisJP.setBirth_get(customerRegisJP.getT6().getText());
                 customerRegisJP.setPhnum_get(customerRegisJP.getT7().getText());
                 customerRegisJP.setEmail_get(customerRegisJP.getT8().getText());
-                customerRegisJP.setPass_confirm(register.pass_confir(customerRegisJP.getPass_get(),customerRegisJP.getPass_get1(),customerRegisJP.getJl3()));
+                customerRegisJP.setPass_confirm(register.pass_confir(customerRegisJP.getPass_get(),
+                        customerRegisJP.getPass_get1(),customerRegisJP.getJl3()));
                 if(customerRegisJP.getRadio4().isSelected()){
                     customerRegisJP.setGender("male");
                 }else {
                     customerRegisJP.setGender("female");;
                 }
-                if(customerRegisJP.getRadio6().isSelected()){
-                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_GOLD);
+                customerRegisJP.setMembership(customerRegisJP.getMember().getSelectedItem().toString());
 
-                }else if(customerRegisJP.getRadio7().isSelected()){
-                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_NORM);
-                }else{
-                    customerRegisJP.setMembership(new Customer().MEMBERSHIP_JUNIOR);
-                }
                 customerRegisJP.setInfo(customerRegisJP.getAnum()+";"+customerRegisJP.getPass_get()+";"+customerRegisJP.getAcc_getC()+";"+
                         customerRegisJP.getFname_get()+";"+customerRegisJP.getLname_get()+";"+customerRegisJP.getGender()+";"+customerRegisJP.getPhnum_get()+
                         ";"+customerRegisJP.getEmail_get()+";"+customerRegisJP.getBirth_get()+";"+customerRegisJP.getMembership()+"\r\n");
                 register.can_submit(customerRegisJP.getSucc(),customerRegisJP.getAnum(),customerRegisJP.getAcc_getC(),customerRegisJP.getJl1(),
                         customerRegisJP.getPass_get(),customerRegisJP.getPhnum_get(),customerRegisJP.getJl4(),customerRegisJP.getEmail_get(),customerRegisJP.getJl5(),
-                        customerRegisJP.getJl2(),customerRegisJP.getInfo(),login,"C",customerRegisJP.getPass_confirm(),customerRegisJP.getFname_get(),
+                        customerRegisJP.getJl2(),customerRegisJP.getInfo(),customerRegisJP.getPass_confirm(),customerRegisJP.getFname_get(),
                         customerRegisJP.getJl6(),customerRegisJP.getLname_get(), customerRegisJP.getJl7(),customerRegisJP.getBirth_get() ,customerRegisJP.getJl8(),customerRegisJP.getMembership());
 
             }
         });
 
-        //从教练登陆页面切换教练注册到页面
+        //Switch coach registration to the page from the coach login page
         traLoginJp.getRegister().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -204,9 +210,9 @@ public class LoginRegisEvent {
             }
         });
 
-        //从用户登录页面切换到用户注册页面
-        customLoginJp.getRegister().addActionListener(new ActionListener() {
-    @Override
+        //Switch from the user login page to the user registration page
+        customLoginJp.getLogin_but().addActionListener(new ActionListener() {
+            @Override
     public void actionPerformed(ActionEvent e) {
 
         enterFrame.getCardLayout().show(enterFrame,"custom_register");
@@ -214,7 +220,7 @@ public class LoginRegisEvent {
     }
 });
 
-        //管理员登录成功
+        //After administrator login successfully what responses
         adminLoginJp.getLogin_but().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -224,7 +230,6 @@ public class LoginRegisEvent {
                 adminLoginJp.getLogin_result().setText(login.admin_login(adminLoginJp.getAccNo_get(),adminLoginJp.getPassword_get()));
                 if(adminLoginJp.getLogin_result().getText().equals("Login successfully!")){
 
-                    //登录关掉登录窗口，打开管理员窗口
                     jFrame.setVisible(false);
                     try {
                         new view().openadmin();
@@ -232,7 +237,7 @@ public class LoginRegisEvent {
                         ex.printStackTrace();
                     }
 
-                    //把登录成功的ID存入文件
+                    //Save the ID of the successful login to a file
                     login.setAccLogin(adminLoginJp.getAccNo_get());
                     try{
 
@@ -248,7 +253,7 @@ public class LoginRegisEvent {
                 } }
         });
 
-        //enter界面切换到用户登录页面
+        //Enter page switches to the user login page
         enterJpanel.getB1().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -259,7 +264,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //enter界面切换到管理员登录页面
+        //Enter page switches to the administrator login page
         enterJpanel.getB2().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -272,7 +277,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //enter界面切换到教练登录页面
+        //Enter page switches to the coach login page
         enterJpanel.getB3().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -285,7 +290,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从用户登录页面返回到enter界面
+        //Return to the enter page from the user login page
         customLoginJp.getGo_back().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -295,7 +300,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从教练登录页面返回到enter界面
+        //Return to the enter page from the trainer login page
         traLoginJp.getGo_back().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -305,7 +310,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从管理员登录页面返回到enter界面
+        //Return to the enter page from the administrator login page
         adminLoginJp.getGo_back().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -315,7 +320,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从用户登录界面切换到用户注册页面
+        //Switch from the user login screen to the user registration page
         customLoginJp.getRegister().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -325,7 +330,8 @@ public class LoginRegisEvent {
             }
         });
 
-        //从教练登录界面切换到教练注册页面
+
+        //Switch from the coach login page to the coach registration page
         traLoginJp.getRegister().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -335,7 +341,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从用户注册界面返回到用户登录页面
+        //Return to the user login page from the user registration page
         customerRegisJP.getGo_Back().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -345,7 +351,7 @@ public class LoginRegisEvent {
             }
         });
 
-        //从教练注册界面返回到教练登录页面
+        //Return from the coach registration page to the coach login page
         trainerRegisJP.getGo_Back().addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

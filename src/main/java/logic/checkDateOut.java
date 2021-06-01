@@ -4,7 +4,11 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
-
+/**
+ * To check the if the booking.txt is correct.
+ * @author Kezhou Zhang
+ * @version 1.0.0
+ */
 public class checkDateOut {
 
     public static int STATE_PAID=1;
@@ -16,11 +20,16 @@ public class checkDateOut {
     private Timer[] timers=new Timer[7];
     private static int[] checkHourPoint={10,11,15,16,20,21};
     private static int[] checkMinatePoint={0,30,0,30,0,30};
-
+    /**
+     * For constructing a object.
+     */
     public checkDateOut(){//构造体出现时，各个定时器就已经就绪，构造完成无需调其他方法
         this.setACheck();//构造时执行了这个函数
     }
-
+    /**
+     * Set a timer for each class before the end of the class, and check the file at that time.
+     * This function performs a check when it executes.
+     */
     public void setACheck(){//为每个还没到下课时间设定一个定时器，倒时候会检查一遍文件
                             // 这个函数执行时会执行一遍检查
         dateCurrent=new Date();
@@ -40,8 +49,12 @@ public class checkDateOut {
             }
         }
     }
-
-    private class updateTimerTask extends TimerTask {//这个类定义了每一个定时器要在每次下课做什么
+    /**
+     *This class defines what each timer is going to do at each class session.
+     * @author Kezhou Zhang
+     * @version 1.0.0
+     */
+    private static class updateTimerTask extends TimerTask {//这个类定义了每一个定时器要在每次下课做什么
         //以下是每一次验证都需要的数组，在此列出便于逻辑
         String[] allExpiredBIDs;
         int[] allExpirednum;
@@ -77,7 +90,13 @@ public class checkDateOut {
         }
 
         //以下函数全是run中需要调用的函数
-
+        /**
+         * For return the lectures needed.
+         * @param  ifItIsCancelled
+         * if it is serve for cancelled bookings.
+         * @return ArrayList
+         * Returns all lectures found in a lecture that were cancelled or that were not cancelled but expired
+         */
         public ArrayList<String> takeOutLectures(Boolean ifItIsCancelled){//返回被取消的所有lecture或者没被取消但已经过期的lecture
             ArrayList<String> theCancelledSet = new ArrayList<>();//已经被取消的所有lecture
             ArrayList<String> theExpiredNotCancelSet = new ArrayList<>();//已经过期但没被取消的lecture
@@ -128,7 +147,13 @@ public class checkDateOut {
         }
                 return theCancelledSet;
         }//返回从lecture里找的被取消的所有lecture或者没被取消但已经过期的lecture
-
+        /**
+         * Search how many lectures the booking has, one by one.
+         * @param  BIDs
+         * BIDs need to be searched
+         * @return int[]
+         *  lectures quantity array
+         */
         public int[] seekTotalQuantity(String[] BIDs){//输入一些BID，它会返回每个BID一共有多少lecture，一一对应
             int[] total = new int[BIDs.length];
             try{
@@ -160,7 +185,15 @@ public class checkDateOut {
 
             return total;
         }//输入一些BID，它会返回每个BID有多少lecture，一一对应
-
+        /**
+         * Remove the same element from B as from A.
+         * @param  A
+         * A String array
+         * @param  B
+         * A String array
+         * @return String[]
+         * outcome
+         */
         public String[] removeAFromB(String[] A, String[] B){//从B中去掉和A相同的元素
             String [] outcome;
             ArrayList<String> midChanger=new ArrayList<>();
@@ -181,7 +214,18 @@ public class checkDateOut {
             }
             return outcome;
         }//从B中去掉和A相同的元素
-
+        /**
+         * When removeAFromB above returns an array of order IDs without any cancellations,
+         * the number of overdue courses for those orders should also be corrected.
+         * @param  oldBIDs
+         * A String array of old BIDs
+         * @param  oldnums
+         * A int array contains counts of lectures
+         * @param newBIDs
+         * A String array of new BIDs
+         * @return int[]
+         * the new BIDs' int array contains counts of lectures
+         */
         public int[] updateRemovedBIDnum(String[] oldBIDs,int[] oldnums,String[] newBIDs ){//当上面的removeAFromB返回【不含有任何取消的课的订单ID数组】时，这些订单对应的过期课个数统计也应该改正
             int[] outcome=new int[newBIDs.length];
             //ArrayList<Integer> midChanger= new ArrayList<>();
@@ -200,7 +244,14 @@ public class checkDateOut {
                 }
             return outcome;
         }//当上面的removeAFromB返回【不含有任何取消的课的订单ID数组】时，这些订单对应的过期课个数统计也应该改正
-
+        /**
+         * Since this function has to fill two arrays, it will assign the value internally and will not return it.
+         * This function extracts the read original string BID and the number of lectures it has.
+         * @param  ifItIsConcelled
+         * if it is serve for cancelled bookings.
+         * @param  OrignalStrings
+         * the String read
+         */
         public void splitToTwoArray(boolean ifItIsConcelled,ArrayList<String> OrignalStrings){//因为这个函数要填两个数组，所以直接在内部赋值，不返回了。这个函数要把独到的原始字符串提取BID和它拥有的lecture数
             ArrayList<String> midChanger= new ArrayList<>();
 
@@ -239,7 +290,15 @@ public class checkDateOut {
 
 
         }//因为这个函数要填两个数组，所以直接在内部赋值，不返回了。这个函数要把独到的原始字符串提取BID和它拥有的lecture数
-
+        /**
+         * The comparison function will automatically assign bids to the appropriate character array
+         * @param  BIDs
+         * The BID need to be classified
+         * @param  currentNums
+         * current counts.
+         * @param totalNums
+         * total counts.
+         */
         public void copmareToDecideStateNC(String[] BIDs, int[] currentNums,int[] totalNums){//判断没取消部分时比较用的函数，将会自动把BID分到相应的字符数组
 
             for(int i=0;i<BIDs.length;i++){
@@ -251,7 +310,15 @@ public class checkDateOut {
             }
 
         }//判断没取消部分时比较用的函数，将会自动把BID分到相应的字符数组
-
+        /**
+         * Responsible for the classification of full and half cancelled orders when it comes to cancellations
+         * @param  BIDs
+         * The BID need to be classified
+         * @param  currentNums
+         * current counts.
+         * @param totalNums
+         * total counts.
+         */
         public void copmareToDecideStateC(String[] BIDs, int[] currentNums,int[] totalNums){
             for(int i=0;i<BIDs.length;i++){
                 if(totalNums[i]==currentNums[i]){
@@ -263,7 +330,9 @@ public class checkDateOut {
                 }
             }
         }//当涉及到有取消时，负责把完全取消订单和半取消订单分类
-
+        /**
+         * Correct the status of bookings
+         */
         public void changeTheLabel(){//改状态,改的Booking.TXT
             ArrayList<String> backup= new ArrayList<>();
             try{
@@ -341,7 +410,17 @@ public class checkDateOut {
 
 
         }//改状态
-
+        /**
+         * To modify a value of a string
+         * @param splitedString
+         * The string need to be modified
+         * @param which
+         * which need to be nodified
+         * @param what
+         * change to what
+         * @return String
+         * the modified String
+         */
         public String changeWhichToWhat(String[] splitedString,int which,String what){//修改字符串某个值用，直接返回整个字符串
             String outcome="";
             for(int i=0;i<splitedString.length;i++){
@@ -356,7 +435,9 @@ public class checkDateOut {
             }
             return outcome;
         }//修改字符串某个值用，直接返回整个字符串
-
+        /**
+         * Go to lecture.txt and change the BID corresponding to the lecture
+         */
         public void DoTheSplit(){//到lecture.txt里把lecture对应的要拆分的BID改了
             ArrayList<String> backup= new ArrayList<>();
             try{

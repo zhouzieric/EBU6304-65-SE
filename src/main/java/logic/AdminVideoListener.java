@@ -1,20 +1,33 @@
+
 package logic;
+
 import pages.AddVideoGUI;
 import pages.AdminVideoController;
 import pages.RecordingPlayer;
 import pages.showAPlayer;
 
 import javax.swing.*;
-import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.*;
-import java.lang.*;
-import java.awt.*;
-import java.awt.event.*;
 
-
+/**
+ * This class is a action listener
+ * to response to the action activated in the
+ * AdminVideoListener class
+ * @author Gui Jiayi
+ * @version 4.3
+ */
 public class AdminVideoListener implements ActionListener{
-    AdminVideoController avc;
+    private AdminVideoController avc;
 
+    /**
+     * Action event for all buttons on the AdminVideoController class
+     * @param e
+     * Actionevent for button added
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
 
@@ -47,7 +60,7 @@ public class AdminVideoListener implements ActionListener{
                 String videoName = getVideoName(row);
                 System.out.println(videoName);
 
-                RecordingPlayer rp = new RecordingPlayer(videoName,showAPlayer.getFormatUseName(videoName));
+                RecordingPlayer rp = new RecordingPlayer(videoName, showAPlayer.getFormatUseName(videoName));
 
                 JFrame viewFrame = new JFrame("View Sports Video");
                 viewFrame.setBounds(400,150,500,500);
@@ -55,10 +68,10 @@ public class AdminVideoListener implements ActionListener{
                     @Override
                     public void windowClosing(WindowEvent e) {
                         super.windowClosing(e);
-                        rp.mediaPlayerComponent.release();
+                        rp.getMediaPlayerComponent().release();
                     }
                 });
-                viewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  //Close when Payment is comleted
+                viewFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);  //Close when Payment is completed
                 viewFrame.setVisible(true);
                 viewFrame.setContentPane(rp);
                 rp.toPlay();
@@ -75,9 +88,17 @@ public class AdminVideoListener implements ActionListener{
         this.avc = avc;
     }
 
-    public void delVideo(int row){
+    /**
+     * Delete the video information chose in the UI from the file
+     * @param row
+     * the row with according Video info selected in the UI to be deleted
+     * @return boolean
+     * whether the file is deleted without mistake
+     */
+    public boolean delVideo(int row){
         String path = openVideoFile(1);
         int index =0;
+        boolean flag=false;
 
         try {
             File file = new File(path);
@@ -90,9 +111,8 @@ public class AdminVideoListener implements ActionListener{
             PrintWriter pw = new PrintWriter(bw);
 
             while(oLine!=null){
-                if(row!=index){
-                    pw.write(oLine+"\n");
-                }
+                if(row!=index) pw.write(oLine+"\n");
+                if(row==index) flag = true;
                 index++;
                 oLine = br.readLine();
             }
@@ -108,9 +128,16 @@ public class AdminVideoListener implements ActionListener{
             e.printStackTrace();
         }
 
-
+        return flag;
     }
 
+    /**
+     * Get the video name of a selected video information row
+     * @param row
+     * the row with according Video info selected in the UI
+     * @return String
+     * video name
+     */
     public String getVideoName(int row){
         String videoName = "";
         String path = openVideoFile(1);
@@ -121,7 +148,6 @@ public class AdminVideoListener implements ActionListener{
             FileReader fileReader = new FileReader(file);
             BufferedReader br = new BufferedReader(fileReader);
             String oLine = br.readLine();
-
 
             while(oLine!=null){
                 if(row==index){
@@ -142,6 +168,11 @@ public class AdminVideoListener implements ActionListener{
         return videoName;
     }
 
+    /**
+     * Add the video information to the file
+     * @param row
+     * the row with whole line video information
+     */
     public void addVideo(String row){
         String path =openVideoFile(1);
         try {
@@ -158,6 +189,15 @@ public class AdminVideoListener implements ActionListener{
         }
     }
 
+    /**
+     * Duplicate the video from one place to another
+     * @param source
+     * the source file where the video need to be moved lies
+     * @param dest
+     * the file path where video needs to be moved to
+     * @return boolean
+     * whether the file is moved without mistake
+     */
     public boolean moveVideo(File source,String dest){
         boolean flag = false;
         String path = openVideoFile(2);
@@ -189,6 +229,13 @@ public class AdminVideoListener implements ActionListener{
         return flag;
     }
 
+    /**
+     * Gets the video data file path
+     * @param flag
+     * number indicates the file path type
+     * @return String
+     * data file path with given type
+     */
     public String openVideoFile(int flag){
         String path="";
         if(flag==1) {    //when only open video text

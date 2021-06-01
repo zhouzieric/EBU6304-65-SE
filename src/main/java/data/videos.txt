@@ -3,7 +3,6 @@ Aerobics2;png;mp4;4;Part 2 of Aerobics;1
 Aerobics3;png;mp4;4;Part 3 of Aerobics;2
 Aerobics4;png;mp4;4;Part 4 of Aerobics;2
 HIIT1;png;mp4;2;Part 1 of HIIT;0
-HIIT2;png;mp4;2;Part 2 of HIIT;1
 HIIT3;png;mp4;2;Part 3 of HIIT;2
 HIIT4;png;mp4;2;Part 4 of HIIT;2
 Shaping1;png;mp4;7;Part 1 of Shaping;0

@@ -32,7 +32,11 @@ import javax.swing.PopupFactory;
 import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
-
+/**
+ *Class that displays calendar
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 
 public class Chooser extends JPanel{
 
@@ -56,8 +60,13 @@ public class Chooser extends JPanel{
     private static WeekLabel[] weekLabels = new WeekLabel[7];
     private static int defaultStartDAY = 0;//0 is from Sun, 1 is from Mon, 2 is from Tue
     private static Color hoverColor = Color.BLUE; // hover color
-    
 
+    /**
+     * This a constructor to pass parameters
+     * @param date Date to be chosen
+     * @param format selected format
+     * @param startDAY indicate start day
+     */
     private Chooser(Date date, String format, int startDAY){
         if(startDAY > -1 && startDAY < 7) defaultStartDAY = startDAY;
         int dayIndex = defaultStartDAY;
@@ -85,7 +94,9 @@ public class Chooser extends JPanel{
     public static Chooser getInstance(){
         return getInstance(new Date(), DEFAULTFORMAT);
     }
-    
+/**
+ * Initial the calender panel.
+ */
     private void initCalendarPanel(){
         calendarPanel = new JPanel(new BorderLayout());
         calendarPanel.setBorder(BorderFactory.createLineBorder(new Color(0xAA, 0xAA, 0xAA)));
@@ -101,6 +112,11 @@ public class Chooser extends JPanel{
             }
         });
     }
+    /**
+     * Response the calender click events.
+     * @param showComponent
+     * component to show
+     */
     public void register(final JComponent showComponent) {
         this.showDate = showComponent;
         showComponent.setRequestFocusEnabled(true);
@@ -147,7 +163,9 @@ public class Chooser extends JPanel{
             public void focusGained(FocusEvent e) { }
         });
     }
-    //hide the main panel.
+    /**
+     * hide the main panel.
+     */
     private void hidePanel() {
         if (pop != null) {
             isShow = false;
@@ -155,8 +173,11 @@ public class Chooser extends JPanel{
             pop = null;
         }
     }
- 
-    //show the main panel.
+    /**
+     * show the main panel.
+     * @param owner Component to show the main panel
+     */
+
     private void showPanel(Component owner) {
         if (pop != null) pop.hide();
         Point show = new Point(0, showDate.getHeight());
@@ -171,7 +192,10 @@ public class Chooser extends JPanel{
         pop.show();
         isShow = true;
     }
-    // change text or label's content.
+    /**
+     * change text or label's content.
+     */
+
     private void commit() {
         if (showDate instanceof JTextField) {
             ((JTextField) showDate).setText(sdf.format(calendar.getTime()));
@@ -180,18 +204,27 @@ public class Chooser extends JPanel{
         }
         hidePanel();
     }
+    /**
+     *Class that controls panel
+     * @author Yixin Li
+     * @version 5.6.3
+     */
 
-    // control panel
     private class TitlePanel extends JPanel {
         
         private static final long serialVersionUID = -2865282186037420798L;
         private JLabel preYear,preMonth,center,nextMonth,nextYear,centercontainer;
-        
+        /**
+         * This a constructor without parameters
+         */
         public TitlePanel(){
             super(new BorderLayout());
             this.setBackground(new Color(190, 200, 200));
             initTitlePanel();
         }
+        /**
+         * Initial the panel's title
+         */
         private void initTitlePanel(){
             preYear = new JLabel("<<", JLabel.CENTER);
             preMonth = new JLabel("<", JLabel.CENTER);
@@ -227,52 +260,93 @@ public class Chooser extends JPanel{
             nextMonth.addMouseListener(new MyMouseAdapter(nextMonth, Calendar.MONTH, 1));
             nextYear.addMouseListener(new MyMouseAdapter(nextYear, Calendar.YEAR, 1));
         }
-        
+        /**
+         *Update the date
+         */
         private void updateDate() {
             center.setText(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH) + 1));
         }
-        // listener for control label.
+        /**
+         *listener for control label
+         * @author Yixin Li
+         * @version 5.6.3
+         */
+
         class MyMouseAdapter extends MouseAdapter{
             
             JLabel label;
             private int type, value;
-            
+            /**
+             * This a constructor to pass parameters
+             * @param label
+             * @param type
+             * @param value
+             */
             public MyMouseAdapter(final JLabel label, final int type, final int value){
                 this.label = label;
                 this.type = type;
                 this.value = value;
             }
+            /**
+             * response to mouse event
+             * @param me mouse event
+             */
             public void mouseEntered(MouseEvent me) {
                 label.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 label.setForeground(hoverColor);
             }
+            /**
+             * response to mouse event
+             * @param me mouse event
+             */
             public void mouseExited(MouseEvent me) {
                 label.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 label.setForeground(Color.BLACK);
             }
+            /**
+             * response to mouse event
+             * @param me mouse event
+             */
             public void mousePressed(MouseEvent me) {
                 calendar.add(type, value);
                 label.setForeground(Color.WHITE);
                 refresh();
             }
+            /**
+             * response to mouse event
+             * @param me mouse event
+             */
             public void mouseReleased(MouseEvent me) {
                 label.setForeground(Color.BLACK);
             }
         }
     }
-    // body panel, include week labels and day labels.
+    /**
+     * Class that contains body panel, include week labels and day labels
+     * @author Yixin Li
+     * @version 5.6.3
+     */
+
     private class BodyPanel extends JPanel {
         
         private static final long serialVersionUID = 5677718768457235447L;
-        
+        /**
+         * This a constructor without parameters
+         */
         public BodyPanel(){
             super(new GridLayout(7, 7));
             this.setPreferredSize(new Dimension(210, 140));
             initMonthPanel();
         }
+        /**
+         * Initial the month panel
+         */
         private void initMonthPanel(){
             updateDate();
         }
+        /**
+         * Update the date
+         */
         public void updateDate() {
             this.removeAll();
             lm.clear();
@@ -282,7 +356,6 @@ public class Chooser extends JPanel{
             cal.set(Calendar.DAY_OF_MONTH, 1);
             
             int index = cal.get(Calendar.DAY_OF_WEEK);
-            // 从当月1号前移，一直移动到面板显示的第一天的前一天；当-index + defaultStartDAY为正数时，为避免面板从当月1号之后开始显示，需要前移一周，确保当月显示完全
             if(index > defaultStartDAY) cal.add(Calendar.DAY_OF_MONTH, -index + defaultStartDAY);
             else cal.add(Calendar.DAY_OF_MONTH, -index + defaultStartDAY - 7);
             
@@ -298,16 +371,25 @@ public class Chooser extends JPanel{
             }
         }
     }
-    
+    /**
+     * Class that displays the calendar panel's footer
+     * @author Yixin Li
+     * @version 5.6.3
+     */
     private class FooterPanel extends JPanel {
         
         private static final long serialVersionUID = 8135037333899746736L;
         private JLabel dateLabel;
-        
+        /**
+         * This a constructor without parameters
+         */
         public FooterPanel(){
             super(new BorderLayout());
             initFooterPanel();
         }
+        /**
+         * Initial the panel
+         */
         private void initFooterPanel(){
             dateLabel = new JLabel("Today is : "+sdf.format(new Date()));
             dateLabel.addMouseListener(new MouseListener() {
@@ -336,19 +418,31 @@ public class Chooser extends JPanel{
         }
         public void updateDate(){};
     }
-    //refresh all panel
+    /**
+     * refresh all panel.
+     */
+
+
     private void refresh() {
         titlePanel.updateDate();
         bodyPanel.updateDate();
         footerPanel.updateDate();
         SwingUtilities.updateComponentTreeUI(this);
     }
-    
+    /**
+     * Class that displays the calendar panel's week label
+     * @author Yixin Li
+     * @version 5.6.3
+     */
     private class WeekLabel extends JLabel {
         
         private static final long serialVersionUID = -8053965084432740110L;
         private String name;
-        
+        /**
+         * This a constructor to pass parameters
+         * @param index int
+         * @param name String
+         */
         public WeekLabel(int index, String name){
             super(name, JLabel.CENTER);
             this.name = name;
@@ -357,13 +451,20 @@ public class Chooser extends JPanel{
             return name;
         }
     }
-    
+    /**
+     * Class that displays the calendar panel's day label
+     * @author Yixin Li
+     * @version 5.6.3
+     */
     private class DayLabel extends JLabel implements java.util.Comparator<DayLabel>, MouseListener, java.awt.event.MouseMotionListener {
 
         private static final long serialVersionUID = -6002103678554799020L;
         private boolean isSelected;
         private int year, month, day;
-        
+        /**
+         * This a constructor to pass parameters
+         * @param cal Calendar
+         */
         public DayLabel(Calendar cal){
             super(""+cal.get(Calendar.DAY_OF_MONTH), JLabel.CENTER);
             this.year = cal.get(Calendar.YEAR);
@@ -380,6 +481,11 @@ public class Chooser extends JPanel{
         public boolean getIsSelected() {
             return isSelected;
         }
+        /**
+         * set the select
+         * @param b Boolean
+         * @param isDrag boolean
+         */
         public void setSelected(boolean b, boolean isDrag) {
             isSelected = b;
             if (b && !isDrag) {
@@ -393,7 +499,11 @@ public class Chooser extends JPanel{
                 this.repaint();
             }
         }
-        
+        /**
+         * show the paint component.
+         * @param g Graphics to show the paint component
+         */
+
         @Override
         protected void paintComponent(Graphics g) {
             //set curr select day's background
@@ -426,9 +536,17 @@ public class Chooser extends JPanel{
             }
             super.paintComponent(g);
         }
+        /**
+         * Set bound of the panel.
+         * @param p Point to add the panel
+         * @return boolean
+         */
         public boolean contains(Point p) {
             return this.getBounds().contains(p);
         }
+        /**
+         * Repaint the component.
+         */
         private void update() {
             repaint();
         }
@@ -438,13 +556,19 @@ public class Chooser extends JPanel{
         public void mouseMoved(MouseEvent e) { }
         @Override
         public void mouseClicked(MouseEvent e) { }
-
+        /**
+         * Response to the mouse clicked.
+         * @param e MouseEvent to select day
+         */
         @Override
         public void mousePressed(MouseEvent e) {
             isSelected = true;
             update();
         }
-
+        /**
+         * Response to the mouse released.
+         * @param e MouseEvent to select day
+         */
         @Override
         public void mouseReleased(MouseEvent e) {
             Point p = SwingUtilities.convertPoint(this, e.getPoint(), bodyPanel);
@@ -452,17 +576,31 @@ public class Chooser extends JPanel{
             lm.setSelect(p, false);
             commit();
         }
-        @Override // change color when mouse over.
+        /**
+         * change color when mouse over.
+         * @param e MouseEvent of mouse over
+         */
+        @Override
         public void mouseEntered(MouseEvent e) {
             this.setForeground(hoverColor);
             this.repaint();
         }
-        @Override // change color when mouse exit.
+        /**
+         * change color when mouse exit.
+         * @param e MouseEvent of mouse exit
+         */
+        @Override
         public void mouseExited(MouseEvent e) {
             if(month == calendar.get(Calendar.MONTH)) this.setForeground(Color.BLACK);
             else this.setForeground(Color.LIGHT_GRAY);
             this.repaint();
         }
+        /**
+         * Compare two labels.
+         * @param o1 DayLabel to be compared
+         * @param o2 DayLabel to be compared
+         * @return int
+         */
         @Override
         public int compare(DayLabel o1, DayLabel o2) {
             Calendar c1 = Calendar.getInstance();
@@ -473,7 +611,11 @@ public class Chooser extends JPanel{
         }
         
     }
-    
+    /**
+     * Class that manages labels
+     * @author Yixin Li
+     * @version 5.6.3
+     */
     private class LabelManager {
         private List<DayLabel> list;
         
@@ -490,11 +632,15 @@ public class Chooser extends JPanel{
         public void clear() {
             list.clear();
         }
+        /**
+         *Set select.
+         * @param p Point to be selected
+         * @param b Boolean to indicate selected or not
+         */
         public void setSelect(Point p, boolean b) {
-            //如果是拖动,则要优化一下,以提高效率  
+
             if (b) {
-                //表示是否能返回,不用比较完所有的标签,能返回的标志就是把上一个标签和  
-                //将要显示的标签找到了就可以了  
+
                 boolean findPrevious = false, findNext = false;
                 for (DayLabel lab : list) {
                     if (lab.contains(p)) {
@@ -521,9 +667,5 @@ public class Chooser extends JPanel{
         }
     }
     
-    
-    /**
-     * @param args
-     */
 
 }

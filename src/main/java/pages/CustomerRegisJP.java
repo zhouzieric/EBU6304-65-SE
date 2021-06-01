@@ -1,25 +1,28 @@
 package pages;
 
 import bean.Customer;
-import logic.Login;
-import logic.Register;
+import logic.ReadFlexibleInfo;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.util.ArrayList;
+/**
+ * Class that displays the customer registers
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 
-//用户注册页面
 public class CustomerRegisJP extends RegisterJpanel {
 
     private JLabel label=new JLabel("Membership: ");
 
-    private JRadioButton radio6=new JRadioButton(Customer.MEMBERSHIP_GOLD);
-    private JRadioButton radio7=new JRadioButton(Customer.MEMBERSHIP_NORM,true);
-    private JRadioButton radio8=new JRadioButton(Customer.MEMBERSHIP_JUNIOR);
+
+    private JComboBox member=new JComboBox();
 
     private String acc_getC="";
     private String membership="";
-
+    /**
+     * This a constructor without parameters
+     */
     public CustomerRegisJP(){
         super();
         getP212().add(getP2121());
@@ -28,9 +31,22 @@ public class CustomerRegisJP extends RegisterJpanel {
         getP2121().add(getT1());
         getP2122().add(getJl1());
         getP71().add(label);
-        getP72().add(radio6);
-        getP72().add(radio7);
-        getP72().add(radio8);
+        getP72().add(member);
+
+        ArrayList<String> memRank=Customer.getMemRank();
+        for(int i=0;i<memRank.size();i++){
+            member.addItem(memRank.get(i));
+        }
+
+
+    }
+
+    public JComboBox getMember() {
+        return member;
+    }
+
+    public void setMember(JComboBox member) {
+        this.member = member;
     }
 
     public JLabel getLabel() {
@@ -41,29 +57,7 @@ public class CustomerRegisJP extends RegisterJpanel {
         this.label = label;
     }
 
-    public JRadioButton getRadio6() {
-        return radio6;
-    }
 
-    public void setRadio6(JRadioButton radio6) {
-        this.radio6 = radio6;
-    }
-
-    public JRadioButton getRadio7() {
-        return radio7;
-    }
-
-    public void setRadio7(JRadioButton radio7) {
-        this.radio7 = radio7;
-    }
-
-    public JRadioButton getRadio8() {
-        return radio8;
-    }
-
-    public void setRadio8(JRadioButton radio8) {
-        this.radio8 = radio8;
-    }
 
     public String getAcc_getC() {
         return acc_getC;

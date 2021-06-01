@@ -6,9 +6,20 @@ import java.io.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+/**
+ *This class is to match trainers for member's live session.
+ * @author Wang Pei; Zhang Kezhou
+ * @version 3.0
+ */
 public class Match{
-
-    public ArrayList<String> get_trainers(String target){//得到教练们的ID
+    /**
+     * Get the ID of all the trainers who can meet the needs of member
+     * @param  target
+     * Member's target of the live session
+     * @return  ArrayList
+     * The arrayList that contains all ID of all qualified trainers
+     */
+    public static ArrayList<String> get_trainers(String target){//得到教练们的ID
         ArrayList<String> trainers = new ArrayList<String>();
         try{
             String fileName = "src/main/java/data/"+target+"_trainer.TXT";
@@ -32,7 +43,13 @@ public class Match{
 
         return trainers;
     }
-
+    /**
+     * Search TID by BID
+     * @param  BID
+     * The BID to be searched
+     * @return  String
+     * The corresponding TID
+     */
     public static String getTIDByBID(String BID){
         String TID=null;
         try{
@@ -55,7 +72,13 @@ public class Match{
         }
         return TID;
     }
-
+    /**
+     * Search booking information by BID
+     * @param  BID
+     * The BID to be searched
+     * @return  String[]
+     * The corresponding booking information
+     */
     public static String[] getBInfoByBID(String BID){
         int flag=0;
         String[] BInfo=null;
@@ -89,7 +112,13 @@ public class Match{
         return BInfo;
 
     }
-
+    /**
+     * Search trainer information by TID
+     * @param  TID
+     * The TID to be searched
+     * @return  String[]
+     * The corresponding trainer information
+     */
     public static String[] getTrainerInfo(String TID){
 
         String[] TrainerInfo=new String[3];
@@ -118,8 +147,14 @@ public class Match{
             return TrainerInfo;
 
     }
-
-    public ArrayList<String> get_lectures(String trainerId){//先读booking再读lecture
+    /**
+     * Get the time mark that a trainer has been scheduled.
+     * @param  trainerId
+     * Trainer ID
+     * @return  ArrayList
+     * The arraylist containing time marks that this trainer has been scheduled..
+     */
+    public static ArrayList<String> get_lectures(String trainerId){//先读booking再读lecture
         ArrayList<String> bookingList = new ArrayList<String>();//
         ArrayList<String> timeList = new ArrayList<String>();//教练已经被占用的时间，是课程编号
         try{
@@ -167,8 +202,14 @@ public class Match{
 
         return timeList;
     }
-
-    public ArrayList<String> get_NextWeeklectures(String trainerId){//先读booking再读lecture,订课用
+    /**
+     * Search lectures in next week
+     * @param  trainerId
+     * The TID to be searched
+     * @return  ArrayList
+     * The corresponding lectures
+     */
+    public static ArrayList<String> get_NextWeeklectures(String trainerId){//先读booking再读lecture,订课用
         ArrayList<String> bookingList = new ArrayList<String>();//
         ArrayList<String> timeList = new ArrayList<String>();//教练已经被占用的时间，是课程编号
         try{

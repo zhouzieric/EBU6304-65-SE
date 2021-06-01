@@ -5,36 +5,64 @@ package logic;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+/**
+ *class that administrators view user and coach information as well as promotional information
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 
-//实现管理员查看用户和教练信息的功能类
 public class AdminViewInfo {
 
     private Object[] columnTitle = {"AccountID" , "Password" , "First Name","Last Name","Gender","Phone Number","E-mail",
             "Date of birth","Profession","Rank"};
     private Object[] columnTitle1 = {"AccountID" , "Password" , "Nickname","First Name","Last Name","Gender","Phone Number",
             "E-mail","Date of birth","Membership"};
-    private  Object[] columnTitle_mem={"Membership","Discount"};
+    private  Object[] columnTitle_mem={"Membership","Discount","Upgrade Fee"};
     private Object[] columnTile_dis={"Price","Price to subtract"};
     private Object[] columnTitle_rankp={"Rank","Price"};
 
-    //将信息作为二维数组返回
+/**
+ * Output the corresponding membership hierarchy information
+ * @return  Object[][]
+ *The return value contains membership hierarchy information
+ */
+
+    public Object[][] get_memDis(){
+        String[] info;
+
+        info=ReadFlexibleInfo.readFile(1).split(";");
+        int num=info.length/3;
+        Object[][] tabledata=new Object[num][3];
+        for(int i=0;i<num;i++){
+            tabledata[i][0] = info[3*i];
+            tabledata[i][1] = info[3*i+1];
+            tabledata[i][2]=info[3*i+2];
+        }
+        return tabledata;
+    }
+    /**
+     * Output customer or trainer's information
+     * @param I String to indicate customer or trainer's information to be modified
+     * @return  Object[][]
+     *The return value contains customer or trainer's information
+     */
     public Object[][] view_info(String I){
 
         Login login=new Login();
-        int num= Integer.parseInt(login.distri_acc(I).substring(1))-1;//一共有多少个成员
-        //System.out.println(num);
+        int num= Integer.parseInt(login.distri_acc(I).substring(1))-1;
+
         Object[][] tabledata=new Object[num][];
 
         for(int i=1;i<=num;i++) {
             try {
-                //打开文件，读信息
+                //open the information file and read it
                 FileReader fileReader = new FileReader("src/main/java/data/"+I+"Info/"+I+i + ".txt");
                 BufferedReader bufferedReader = new BufferedReader(fileReader);
                 String oneLine = bufferedReader.readLine();
                 String[] info = oneLine.split(";");
                 tabledata[i - 1] = new Object[info.length];
 
-                //把文件中的信息赋给二维数组
+                //Assigns information from the file to a two-dimensional array
                 for (int j = 0; j < info.length; j++) {
                     tabledata[i - 1][j] = info[j];
                 }
@@ -49,33 +77,23 @@ public class AdminViewInfo {
         return tabledata;
         }
 
-        //输出对应的促销信息
-    public Object[][] get_promotionInfo(String choice,int num){
-        Object[][] tabledata=new Object[num][];
-        int i=1;
+    /**
+     * Output customer or trainer's information
+     * @param row int Number to indicate the relevant row of the flexi_into.txt
+     * @return  Object[][]
+     *The return value contains marketing information
+     */
+    public Object[][] get_promotionInfo(int row){
+
         String[] info;
-            try {
-                //打开文件，读信息
-                FileReader fileReader = new FileReader("src/main/java/data/"+choice+".txt");
-                BufferedReader bufferedReader = new BufferedReader(fileReader);
-                String oneLine = bufferedReader.readLine();
-                while(oneLine!=null){
-                    info = oneLine.split(";");
-                    tabledata[i - 1] = new Object[info.length];
-                    //把文件中的信息赋给二维数组
-                    for (int j = 0; j < info.length; j++) {
-                        tabledata[i - 1][j] = info[j];
-                    }
-                    i++;
-                    oneLine = bufferedReader.readLine();
-                }
-                bufferedReader.close();
-                fileReader.close();
-            } catch (IOException e) {
-                System.out.println("ERROR");
-                System.exit(1); }
 
-
+        info=ReadFlexibleInfo.readFile(row).split(";");
+        int num=info.length/2;
+        Object[][] tabledata=new Object[num][2];
+        for(int i=0;i<num;i++){
+            tabledata[i][0] = info[2*i];
+            tabledata[i][1] = info[2*i+1];
+        }
         return tabledata;
     }
     public Object[] getColumnTitle() {

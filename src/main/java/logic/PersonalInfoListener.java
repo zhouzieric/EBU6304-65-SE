@@ -1,3 +1,4 @@
+
 package logic;
 
 import bean.Customer;
@@ -13,15 +14,24 @@ import java.io.IOException;
 import java.lang.*;
 import java.awt.*;
 import java.awt.event.*;
-
+/**
+ * This class is a action listener
+ * to response to the action activated in the
+ * PersonalController class
+ * @author Gui Jiayi
+ * @version 1.0
+ */
 public class PersonalInfoListener implements ActionListener {
-    PersonalInfoController pi;
-    ChangeInfo readInfo;
-    Member mem;
-    int flag;
+    private PersonalInfoController pi;
+    private ChangeInfo readInfo;
+    private Member mem;
+    private int flag;
 
-
-
+    /**
+     * Action event for all buttons on the PersonalInfoController class
+     * @param e
+     * Actionevent for button added
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         Login log = new Login();
@@ -137,7 +147,14 @@ public class PersonalInfoListener implements ActionListener {
 
     }
 
-    public String hidePW(String password){
+    /**
+     * Get the asterisk replacement password to protect user privacy
+     * @param password
+     * password entered
+     * @return String
+     * password String replaced by asterisk with same length
+     */
+    public static String hidePW(String password){
         String ask = "";
         for(int i =0;i<password.length();i++){
             ask = ask.concat("*");
@@ -145,7 +162,7 @@ public class PersonalInfoListener implements ActionListener {
         return ask;
     }
 
-    /**
+
     public void setMem(Member mem) {
         this.mem = mem;
     }
@@ -153,7 +170,7 @@ public class PersonalInfoListener implements ActionListener {
     public void setReadInfo(ChangeInfo readInfo) {
         this.readInfo = readInfo;
     }
-    */
+
 
     public void setPi(PersonalInfoController pi) {
         this.pi = pi;

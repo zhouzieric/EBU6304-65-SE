@@ -1,10 +1,10 @@
 B1;C3;T1;2021-4-21 13：34：03;4;99;48.0;160.5;weightloss;45;1;null;null
-B2a;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;2;aaaaaaaaaa
+B2a;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;2;The trainer is very gentle
 B2b;C3;T1;2021-4-21 13：34：03;4;99;48.0;160.5;weightloss;45;1;null;null
 B3;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;5;good
-B4a;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;null;null
+B4a;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;4;I like it.
 B4b;C3;T1;2021-4-21 13：34：03;4;99;48.0;160.5;weightloss;45;1;null;null
-B5;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;null;null
+B5;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;4;The trainer is very professional
 B6a;C3;T1;2021-5-1 13：34：03;3;99;48.0;160.5;weightloss;45;1;null;null
 B6b;C3;T1;2021-5-1 13：34：03;4;99;48.0;160.5;weightloss;45;1;null;null
 B7a;C3;T1;2021-4-21 13：34：03;3;99;48.0;160.5;weightloss;45;1;null;null
@@ -14,3 +14,11 @@ B9;C3;T4;2021-04-24 15:04:28;3;120.0;150.0;70.0;weightloss;40;3;null;null
 B10;C3;T4;2021-05-06 21:04:02;3;120.0;150.0;80.0;weightloss;50;3;null;null
 B11;C3;T4;2021-05-06 21:04:12;3;80.0;150.0;80.0;weightloss;50;3;null;null
 B12;C3;T5;2021-05-07 16:34:29;3;165.0;167.0;67.0;weightloss;56;3;null;null
+B13;C2;T1;2021-05-21 01:18:07;3;965.0;178.0;80.0;yoga;sdufu;3;3;Great
+B14;C2;T1;2021-05-28 01:18:07;4;965.0;150.0;80.0;yoga;nope;3;null;null
+B15;C2;T1;2021-05-28 01:20:53;4;3140.0;150.0;80.0;hiit;5454;3;null;null
+B16;C2;T1;2021-05-29 00:32:55;4;160.0;190.0;78.0;shaping;belly;3;null;null
+B17;C2;T1;2021-05-29 16:22:24;3;705.0;190.0;89.0;yoga;owrfuhpow;3;1;Not very good.
+B18;C2;T8;2021-06-01 12:20:35;1;210.0;189.0;78.0;yoga;sogwrg;3;null;null
+B19;C2;T1;2021-06-01 13:13:23;1;925.0;189.0;78.0;yoga;wkrgub;3;null;null
+B20;C2;T1;2021-06-01 13:13:41;1;1225.0;189.0;78.0;yoga;wkrgub;3;null;null

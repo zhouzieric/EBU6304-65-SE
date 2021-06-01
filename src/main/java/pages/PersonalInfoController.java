@@ -1,3 +1,9 @@
+/**
+ * This class is a UI for member
+ * to view and change their personal information
+ * @author Gui Jiayi
+ * @version 1.2
+ */
 package pages;
 
 import bean.Customer;
@@ -6,6 +12,7 @@ import bean.Trainer;
 import logic.ChangeInfo;
 import logic.Login;
 import logic.PersonalInfoListener;
+import logic.readAccLogin;
 
 import javax.swing.*;
 import java.io.BufferedReader;
@@ -46,36 +53,23 @@ public class PersonalInfoController extends JPanel {
     private JLabel lspace;
     private int flag = 0;
 
-
+    /**
+     * This is a constructor initializer for UI to show
+     */
     public PersonalInfoController(){
         pil = new PersonalInfoListener();
-        String filename="src/main/java/data/acc_login.txt";
-        //Acc: Read Account Info Logic
-        try{
-            FileReader fileReader=new FileReader(filename);
-            BufferedReader bufferedReader=new BufferedReader(fileReader);
-            String oneline=bufferedReader.readLine();
-            acc_login = oneline.split("\r\n")[0];
-            System.out.println(acc_login);
 
-            bufferedReader.close();
-            fileReader.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        acc_login = readAccLogin.readFile();
         readInfo = new ChangeInfo(acc_login);
-        if((acc_login.charAt(0)+"").equals("C")){
+        if((acc_login.charAt(0)+"").equals("C")){  //if login is a customer
             mem = new Customer();
             mem = readInfo.readCusInfo();
             flag =1;
-        }else if((acc_login.charAt(0)+"").equals("T")){
+        }else if((acc_login.charAt(0)+"").equals("T")){ //if login is a trainer
             mem = new Trainer();
             mem = readInfo.readTraInfo();
             flag = 2;
-        }else if((acc_login.charAt(0)+"").equals("A")){
+        }else if((acc_login.charAt(0)+"").equals("A")){ //if login is a adminstrator
 
         }
 
@@ -147,7 +141,7 @@ public class PersonalInfoController extends JPanel {
         pBelow.add(l2);
         pBelow.add(l3);
 
-        if(flag==1) {
+        if(flag==1) {       //if it's a customer
             Customer cus = (Customer) mem;
             lMem = new JLabel("Membership Rank: " + cus.getMembership()+"    ");
             lMem.setAlignmentX((float) 0.5);
@@ -159,7 +153,7 @@ public class PersonalInfoController extends JPanel {
             pBelow.add(lMem);
             pBelow.add(lspace);
             pBelow.add(buttonMem);
-        }else if(flag==2){
+        }else if(flag==2){  //if it's a trainer
             Trainer tra = (Trainer) mem;
             lProfess = new JLabel("Professional Category: "+tra.getPro()+"    ");
             lProfess.setAlignmentX((float) 0.5);
@@ -174,11 +168,6 @@ public class PersonalInfoController extends JPanel {
             pBelow.add(lRank);
             //pBelow.add(buttonMem);
         }
-
-
-
-
-
 
 
         //Acc: Right side Info
@@ -224,7 +213,7 @@ public class PersonalInfoController extends JPanel {
         PPassword.add(ppass2);
 
         //password replaced by asterisk
-        lPW = new JLabel("Password:  "+hidePW(mem.getPassword())+"    ");
+        lPW = new JLabel("Password:  "+PersonalInfoListener.hidePW(mem.getPassword())+"    ");
         bPWShow = new JButton("Show");
         bPWShow.addActionListener(pil);
         bPWHide = new JButton("Hide");
@@ -309,13 +298,7 @@ public class PersonalInfoController extends JPanel {
 //        frame.setVisible(true);
 //    }
 
-    public String hidePW(String password){
-        String ask = "";
-        for(int i =0;i<password.length();i++){
-            ask = ask.concat("*");
-        }
-        return ask;
-    }
+
 
     public PersonalInfoListener getPil() {
         return pil;

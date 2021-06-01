@@ -1,3 +1,4 @@
+
 package logic;
 
 import bean.Customer;
@@ -6,14 +7,23 @@ import bean.Trainer;
 import java.io.*;
 import java.lang.*;
 import java.util.ArrayList;
-
+/**
+ * This class is used to read and write
+ * information to the customer file
+ * @author Gui Jiayi
+ * @version 2.0
+ */
 public class ChangeInfo {
     private String accNo;
     private Customer cus;
     private Trainer tra;
 
 
-
+    /**
+     * This a constructor to pass parameters
+     * @param accNo
+     * let the class be able to get account number of customer login
+     */
     public ChangeInfo(String accNo){ this.accNo = accNo;}
 
     public String getAccNo() {
@@ -24,6 +34,11 @@ public class ChangeInfo {
         this.accNo = accNo;
     }
 
+    /**
+     * Get all customer information who login
+     * @return Customer
+     * all information find and set in object Customer
+     */
     public Customer readCusInfo(){
         String fileName = openFile();
         String[] readFile;
@@ -45,6 +60,15 @@ public class ChangeInfo {
         return this.cus;
     }
 
+    /**
+     * Change customer information with given type
+     * @param changeCon
+     * the type customer want to change
+     * @param changeType
+     * the content customer want to change to
+     * @return Customer
+     * all information changed passed by object Customer
+     */
     public Customer changeCusInfo(int changeType, String changeCon){
         String fileName = openFile();
 
@@ -125,6 +149,11 @@ public class ChangeInfo {
         return  this.cus;
     }
 
+    /**
+     * Get all trainer information who login
+     * @return Trainer
+     * all information find and set in object Trainer
+     */
     public Trainer readTraInfo(){
         String fileName = openFile();
         String[] readFile;
@@ -151,7 +180,15 @@ public class ChangeInfo {
 
         return this.tra;
     }
-
+    /**
+     * Change trainer information with given type
+     * @param changeCon
+     * the type trainer want to change
+     * @param changeType
+     * the content trainer want to change to
+     * @return Trainer
+     * all information changed passed by object Trainer
+     */
     public Trainer changeTraInfo(int changeType, String changeCon){
         String fileName = openFile();
 
@@ -224,15 +261,20 @@ public class ChangeInfo {
         return  this.tra;
     }
 
+    /**
+     * Give file path with different login account number
+     * @return String
+     * data file path judged by the account number given
+     */
     public String openFile(){
         String initial = accNo.charAt(0)+"";
         String fileName = "src/main/java/data/";
-        if(initial.equals("C")){
+        if(initial.equals("C")){ //customer
             fileName = fileName.concat("CInfo/"+accNo+".txt");
-        }else if(initial.equals("T")){
+        }else if(initial.equals("T")){ //trainer
             fileName = fileName.concat("TInfo/"+accNo+".txt");
 
-        }else if(initial.equals("A")){
+        }else if(initial.equals("A")){ //adminstrator
 
         }else{
             System.out.println("Not Legal Account No");

@@ -2,23 +2,35 @@ package pages;
 
 import bean.Booking;
 import logic.ReadOrder;
-import logic.ReadandWrite;
+import logic.readAccLogin;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.ArrayList;
 
+/**
+ * This class OrdersPanel contains orders in a certain state (all/paid/ongoing/finished/canceled).
+ * Since A=a gym member may cancel Paid or Ongoing orders at any time
+ * even if some sessions in an Ongoing order have been attended,
+ * showFinishedOrders contains orders all finished, and the finished sessions of an canceled order.
+ * showCanceledOrders contains orders all canceled, that is, no sessions have been attended in this order;
+ * and the canceled sessions of an canceled order.
+ * Title: OrdersPanel
+ * @author Heqing Wang
+ * @version 2.0
+ */
 public class OrdersPanel extends JScrollPane {
     private JPanel inOrdersPanel;
     private int targetStatus;
-    private OrderMenuContainer orderMenuContainer;
     private ArrayList<Booking> bookings;
 
-    public OrdersPanel(int targetStatus, OrderMenuContainer orderMenuContainer){
+    /**
+     * The constructor of OrdersPanel.
+     * @param targetStatus Identifier of a certain state (all:0 paid:1 ongoing:2 finished:3 canceled:4).
+     */
+    public OrdersPanel(int targetStatus){
         this.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         this.targetStatus = targetStatus;
-        this.orderMenuContainer = orderMenuContainer;
         inOrdersPanel = new JPanel();
         this.getViewport().add(inOrdersPanel);
         inOrdersPanel.setLayout(new BoxLayout(inOrdersPanel,BoxLayout.Y_AXIS));
@@ -26,25 +38,17 @@ public class OrdersPanel extends JScrollPane {
         getOrders();
     }
 
+    /**
+     * Get orders in the assigned state. Then for each order creates JPanel OrderSingel.
+     * Finally vertical strut is added to avoid self-adapted height of OrderSingel if necessary.
+     */
     public void getOrders(){
-        //获取登录者ID
-        int cNum = ReadandWrite.rFile("acc_login");
-        String CID = "C" + cNum;
-        this.bookings = ReadOrder.getBookings(CID,targetStatus+""); //why String
+        this.bookings = ReadOrder.getBookings(readAccLogin.readFile(),targetStatus+"");
 
         if(bookings != null){
-//            int num = bookings.size();
-//            int lim = 4;
-//
-//            if(num < lim)
-//                inOrdersPanel.setPreferredSize(new Dimension(0, StandardFrame.frameH));
-//            else
-//                inOrdersPanel.setPreferredSize(new Dimension(0, StandardFrame.frameH + StandardFrame.frameH * (num / lim)));
-
-//            inOrdersPanel.setPreferredSize(new Dimension(0,140*num));
             int feededOrder = 0;
-            inOrdersPanel.removeAll();
 
+            inOrdersPanel.removeAll();
             for(Booking b : bookings){
                 inOrdersPanel.add(Box.createVerticalStrut(14));
                 JPanel ordersingle = new OrderSingle(b,this);
@@ -54,20 +58,23 @@ public class OrdersPanel extends JScrollPane {
                 inOrdersPanel.add(ordersingle);
             }
 
-            //all及finished涉及反馈
-            //若不含反馈6. <6
-            //若反馈1个 非反馈<4
+            // Calculate the height of all obtained orders. If shorter than that of StandardFrame, add vertical strut.
             int ordersHeight = 14*bookings.size() + 220*feededOrder + 110*(bookings.size()-feededOrder);
             if(ordersHeight < StandardFrame.frameH){
                 inOrdersPanel.add(Box.createVerticalStrut(StandardFrame.frameH-ordersHeight));
             }
 
             this.revalidate();
-
-
         } else{
-            //
-            JLabel NoneOrders= new JLabel("You have not booked any live lectures! ");
+            // no bookings in this state.
+            String noBookings = null;
+            if((readAccLogin.readFile().charAt(0)+"").equals("C")){
+                noBookings = "You have not booked any live lectures!";
+            }
+            else if((readAccLogin.readFile().charAt(0)+"").equals("T")){
+                noBookings = "You have not receice any live orders!";
+            }
+            JLabel NoneOrders= new JLabel(noBookings);
             inOrdersPanel.add(NoneOrders);
         }
     }

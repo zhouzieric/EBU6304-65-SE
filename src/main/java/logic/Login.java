@@ -3,13 +3,23 @@ package logic;
 import java.io.*;
 import java.util.ArrayList;
 
-//用户，教练，管理员登录注册时校验信息的类
+/**
+ *Class that verifies information when users, coaches, and administrators log in and register
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 public class Login {
 
 
      private String AccLogin="";
+/**
+ * Verify administrator login information.
+ * @param  accNo_get String to indicate the administrator's account ID typed in.
+ * @param  password_get String to indicate the administrator's password typed in
+ * @return  String
+ *The return value indicates the result whether the login is successful or not.
+ */
 
-     //管理员登录验证
      public String admin_login(String accNo_get, String password_get){
 
          String password_file;
@@ -34,7 +44,13 @@ public class Login {
          }
      }
 
-     //返回文件中管理员的ID及密码
+    /**
+     * Return the administrator login information in the file.
+     * @param  fileName String to indicate the file name to be read.
+     * @param  accNo_get String to indicate the administrator's account ID in the file.
+     * @return  ArrayList
+     *The return value indicates the administrator login information containing account ID and password.
+     */
     public ArrayList getAdInfo(String fileName,String accNo_get){
         ArrayList<String> accInfo= new ArrayList<>();
 
@@ -80,7 +96,13 @@ public class Login {
         return accInfo;
     }
 
-    //用户及教练登录
+    /**
+     * Verify customer and trainer's login information.
+     * @param  accNo_get String to indicate the customer and trainer's account ID typed in.
+     * @param  password_get String to indicate the customer and trainerr's password typed in
+     * @return  String
+     *The return value indicates the result whether the login is successful or not.
+     */
     public String login(String accNo_get, String password_get) {
 
         String password_file;
@@ -104,7 +126,13 @@ public class Login {
             }
     }
 
-
+    /**
+     * Determine whether the account ID entered is the same as the account ID in the file.
+     * @param  accNo_file String to indicate the account ID in the file.
+     * @param  accNo_get String to indicate the account ID typed in.
+     * @return  Boolean
+     *The return value indicates the result whether the account ID entered is the same as the account ID in the file.
+     */
     public boolean judge_accNo(String accNo_file,String accNo_get){
         if(accNo_file.equals(accNo_get)){
             return true;
@@ -114,7 +142,13 @@ public class Login {
         }
     }
 
-    //判断输入的密码是否正确
+    /**
+     * Determine whether the password entered is the same as the password in the file.
+     * @param  password_file String to indicate the password in the file.
+     * @param  password_get String to indicate the password typed in.
+     * @return  int
+     *The return value indicates the result whether the password entered is the same as the password in the file.
+     */
     public int judge_pass(String password_file, String password_get){
         if(password_file.equals(password_get)){
             return 1;
@@ -123,8 +157,12 @@ public class Login {
             return 0;
         }
     }
-
-    //确定给用户和教练分配的ID
+    /**
+     * Automatically assigned an account ID to customers or trainers when they sign up.
+     * @param  I I String to indicate whether the identify is customer or trainer.
+     * @return String
+     *The return value indicates the account ID that automatically assigned.
+     */
     public String distri_acc(String I){
 
         int file_num=1;
@@ -144,11 +182,14 @@ public class Login {
 
         }
         accNo = I + file_num;
-      //  System.out.println(accNo);
         return accNo;
     }
-
-    //得到用户和教练在文件中存的ID和密码
+    /**
+     * Return the customer or trainer's login information in the file.
+     * @param  accNo_get String to indicate the customer or trainer's account ID typed in.
+     * @return  ArrayList
+     *The return value indicates the customer or trainer's login information containing account ID and password.
+     */
     public ArrayList getAccInfo(String accNo_get){
     ArrayList<String> accInfo= new ArrayList<>();
 

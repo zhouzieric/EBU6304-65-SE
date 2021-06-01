@@ -4,8 +4,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+/**
+ *Class that display enter page
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 
-//enter界面
 public class EnterJpanel extends JPanel{
 
     private JLabel l1=new JLabel("");
@@ -21,7 +25,9 @@ public class EnterJpanel extends JPanel{
     private JPanel p21=new JPanel();
     private JPanel p22=new JPanel();
     private JPanel p3=new JPanel();
-
+    /**
+     * This a constructor without parameters
+     */
     public EnterJpanel(){
         this.setLayout(new BorderLayout());
         this.add(p11,BorderLayout.NORTH);

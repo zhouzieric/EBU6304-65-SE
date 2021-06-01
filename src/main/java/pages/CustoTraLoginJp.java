@@ -9,13 +9,18 @@ import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-
-//顾客教练登录页面
+/**
+ *Class that displays customer or trainer login
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 public class CustoTraLoginJp extends LoginJpanel {
     private JButton login_but=new JButton("Login");
     private JButton go_back=new JButton("Go Back");
-
     private JButton register=new JButton("Register");
+    /**
+     * This a constructor without parameters
+     */
     public CustoTraLoginJp(){
         super();
         getP4().setLayout(new GridLayout(1,3));

@@ -11,7 +11,11 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-//登录页面
+/**
+ *Class that display login page
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 public class LoginJpanel extends JPanel{
 
     private final static String filename= "src/main/java/data/acc_login.txt";
@@ -40,7 +44,9 @@ public class LoginJpanel extends JPanel{
     private JPanel p8=new JPanel();
     private JPanel p9=new JPanel();
     private JPanel p10=new JPanel();
-
+    /**
+     * This a constructor without parameters
+     */
     public LoginJpanel(){
 
         login_result.setForeground(Color.red);

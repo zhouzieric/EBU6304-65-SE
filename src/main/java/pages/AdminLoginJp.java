@@ -10,12 +10,18 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 
-//管理员的登录面板
+/**
+ *Class that displays administrator login
+ * @author Yixin Li
+ * @version 5.6.3
+ */
 public class AdminLoginJp extends LoginJpanel {
 
     private JButton login_but=new JButton("Login");
     private JButton go_back=new JButton("Go Back");
-
+    /**
+     * This a constructor without parameters
+     */
     public AdminLoginJp(){
 
         super();

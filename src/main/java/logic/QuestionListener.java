@@ -1,19 +1,32 @@
 package logic;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import pages.QuestionaireController;
 
 import javax.swing.*;
-
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+/**
+ *This class is used to respond to user actions on the questionnaire page, collect user input.
+ * @author Wang Pei
+ * @version 2.0
+ */
 public class QuestionListener implements ActionListener {
     QuestionaireController frame;
 
+    /**
+     * Construction of this class
+     * @param  frame QuestionaireController
+     */
     public QuestionListener(QuestionaireController frame){
         this.frame = frame;
     }
 
+    /**
+     * actionPerformed of the actionlistener in questionnaire page.
+     * @param  event ActionEvent
+     */
     public void actionPerformed(ActionEvent event){
         if (event.getSource()== frame.getJb2()){
             String remind = getInput();
@@ -32,6 +45,11 @@ public class QuestionListener implements ActionListener {
             frame.thisPage();
         }
     }
+    /**
+     * Check whether user input is valid, if valid, then which++ so that it can go to next question, else remind user to answer this question against.
+     * @return String
+     * if the input is valid, reutrn ok, else return the remind information.
+     */
     public String getInput(){
         if (frame.getWhich() == 1){
             String height="";
@@ -60,39 +78,20 @@ public class QuestionListener implements ActionListener {
                     return remindH+"   "+remindW;
             }
         }else if(frame.getWhich() == 2){
-            boolean isSelect1 = frame.getJrb1().isSelected();
-            boolean isSelect2 = frame.getJrb2().isSelected();
-            boolean isSelect11 = frame.getJrb11().isSelected();
-            boolean isSelect12 = frame.getJrb12().isSelected();
-            boolean isSelect13 = frame.getJrb13().isSelected();
-            boolean isSelect14 = frame.getJrb14().isSelected();
-            boolean isSelect15 = frame.getJrb15().isSelected();
-
-            if (isSelect1) {
-                frame.getQuestionaire().setTarget("weightloss");
+            ArrayList<JRadioButton> targets = frame.getTargetTypes();
+            String target="";
+            for(int i=0;i<targets.size();i++){
+                System.out.println("是否读到了所有的选项"+targets.get(i).getText());
+                if(targets.get(i).isSelected())
+                    target = targets.get(i).getText();
+            }
+            if(target.equals(""))
+                return "Please select your target";
+            else{
+                target=target.toLowerCase();
+                frame.getQuestionaire().setTarget(target);
                 return "ok";
             }
-            else if (isSelect2) {
-                frame.getQuestionaire().setTarget("shaping");
-                return "ok";
-            }else if(isSelect11){
-                frame.getQuestionaire().setTarget("HIIT");
-                return "ok";
-            } else if(isSelect12){
-                frame.getQuestionaire().setTarget("yoga");
-                return "ok";
-            }else if(isSelect13){
-                frame.getQuestionaire().setTarget("strength");
-                return "ok";
-            }else if(isSelect14){
-                frame.getQuestionaire().setTarget("aerobics");
-                return "ok";
-            }else if(isSelect15){
-                frame.getQuestionaire().setTarget("taichi");
-                return "ok";
-            }else
-                return "Please select your target";
-
         }else if(frame.getWhich()==3){
             if(frame.getQuestionaire().getTarget().equals("weightloss")) {
                 String weight="";
